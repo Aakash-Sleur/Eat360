@@ -1,0 +1,23 @@
+{
+  "name": "eat-360",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "nexus": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "add-client": "npm install --prefix client",
+    "remove-client": "npm uninstall --prefix client",
+    "add-server": "npm install --prefix server",
+    "remove-server": "npm uninstall --prefix server"
+  },
+  "keywords": [],
+  "author": "Aakash Sleur",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^2.2.0",
+    "concurrently": "^8.2.2"
+  }
+}

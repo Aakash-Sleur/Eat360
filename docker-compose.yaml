@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/.env
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - 3000:3000
+    env_file:
+      - ./client/.env
+    depends_on:
+      - backend
