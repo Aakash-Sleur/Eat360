@@ -89,8 +89,3 @@ export const categories = [
     image: "/images/dummy/dinner.jpg",
   },
 ];
-
-export const BASE_URL =
-  import.meta.env.PROD || import.meta.env.VITE_DEV_REMOTE == "remote"
-    ? import.meta.env.BASE_URL
-    : process.env.BASE_URL;
