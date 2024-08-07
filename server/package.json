@@ -4,10 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
+    "build": "rimraf dist && tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "add-build": "git add dist",
+    "ts.check": "tsc --project tsconfig.json"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,9 +32,7 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.3",
     "multer": "^1.4.5-lts.1",
-    "sharp": "^0.33.4",
-    "stripe": "^16.4.0",
-    "uploadthing": "^6.10.0"
+    "stripe": "^16.4.0"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",
@@ -39,6 +44,8 @@
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.11.30",
     "nodemon": "^3.1.0",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }
