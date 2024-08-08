@@ -22,6 +22,7 @@ import { IUser } from "@/lib/types";
 import { useUserContext } from "@/context/auth-store";
 import { setUserCredentials } from "@/lib/utils";
 import Loader from "@/components/loader";
+import CustomImage from "@/components/shared/custom-image";
 
 
 
@@ -62,7 +63,7 @@ const SignUpForm = () => {
     return (
         <Form {...form}>
             <div className="flex-col sm:w-420 flex-center">
-                <img src="/images/logo.png" alt="logo" />
+                <CustomImage src="/images/logo.png" alt="logo" />
 
                 <h2 className="pt-2 h3-bold md:h2-bold sm:pt-12">
                     Create a new account

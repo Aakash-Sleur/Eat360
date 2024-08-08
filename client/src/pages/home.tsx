@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { categories } from "@/constants"
 import { BannerCarousel } from "@/components/shared/banner-carousel"
 import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/shared/custom-image";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Home = () => {
                                     className="relative p-0 h-72 rounded-t-xl lg:h-92 lg:w-full"
                                 >
                                     <div className="w-full h-full">
-                                        <img
+                                        <CustomImage
                                             src={category.image}
                                             alt="post"
                                             className="object-cover w-full h-full rounded-xl"

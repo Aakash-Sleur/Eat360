@@ -4,6 +4,7 @@ import { IPost, IUser } from "@/lib/types";
 import { getRelativeTime } from "@/lib/utils";
 import PostStats from "@/components/shared/post-stats";
 import { useImagePreviewModal } from "@/hooks/modal-hooks";
+import CustomImage from "./custom-image";
 
 
 type PostCardProps = {
@@ -27,7 +28,7 @@ const PostCard = ({ post, userDetails }: PostCardProps) => {
             <div className="flex items-center justify-between">
                 <div className="flex flex-row flex-1 gap-4">
                     <div className="flex flex-col items-center">
-                        <img
+                        <CustomImage
                             src={userDetails?.profilePicture || post.author.profilePicture || "/icons/profile-placeholder.svg"}
                             alt="profile picture"
                             className="w-10 h-10 rounded-full"
@@ -51,7 +52,7 @@ const PostCard = ({ post, userDetails }: PostCardProps) => {
                         </div>
                         <p className="mt-2 text-sm text-dark-1">{post.text}</p>
                         {post.image && (
-                            <img src={post.image} onClick={handlePreviewImage} alt="post image" className="w-full mt-4 cursor-pointer rounded-xl" />
+                            <CustomImage src={post.image} onClick={handlePreviewImage} alt="post image" className="w-full mt-4 cursor-pointer rounded-xl" />
                         )}
                         <PostStats post={post} />
                     </div>

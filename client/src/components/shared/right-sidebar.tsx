@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 
 import { useGetTopRecipes } from "@/lib/react-query/queries-and-mutations"
+import CustomImage from "./custom-image";
 
 const RightSidebar = () => {
     const { data: recipes } = useGetTopRecipes();
@@ -13,7 +14,7 @@ const RightSidebar = () => {
                     recipes?.map((recipe) => (
                         <Link to={`/recipes/${recipe._id}`} key={recipe._id}>
                             <article className="relative h-64 overflow-hidden w-72 rounded-xl">
-                                <img
+                                <CustomImage
                                     src={recipe.banner_image}
                                     alt="recipe"
                                     className="object-cover w-full h-full"

@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/auth-store";
 import { useGetFollowersAndFollowing, useGetUserById } from "@/lib/react-query/queries-and-mutations";
 import { useSocialNexusModal } from "@/hooks/modal-hooks";
+import CustomImage from "@/components/shared/custom-image";
 
 interface StatBlockProps {
     value: string | number;
@@ -57,7 +58,7 @@ const ProfilePage = () => {
         <div className="profile-container">
             <div className="profile-inner_container">
                 <div className="flex flex-col flex-1 p-4 xl:flex-row max-xl:items-center gap-7 bg-light-2/50">
-                    <img
+                    <CustomImage
                         src={userInView.profilePicture || "/icons/profile-placeholder.svg"}
                         alt="profile-picture"
                         className="rounded-full size-28 lg:size-36"
@@ -95,7 +96,7 @@ const ProfilePage = () => {
                                 to={`/update-profile/${userInView._id}`}
                                 className={`h-12 bg-[#fa8117]/90 px-5 text-light-1 flex-center gap-2 rounded-lg ${userInView._id !== currentUser._id && "hidden"
                                     }`}>
-                                <img
+                                <CustomImage
                                     src={"/icons/edit.svg"}
                                     alt="edit"
                                     width={20}
@@ -119,7 +120,7 @@ const ProfilePage = () => {
                     to={`/profile/${userId}`}
                     className={`profile-tab rounded-l-lg ${pathname === `/profile/${userId}` && "!bg-light-3 text-light-1"
                         }`}>
-                    <img
+                    <CustomImage
                         src={"/icons/posts.svg"}
                         alt="posts"
                         width={20}
@@ -132,7 +133,7 @@ const ProfilePage = () => {
                     to={`/profile/${userId}/posts`}
                     className={`profile-tab rounded-r-lg ${pathname === `/profile/${userId}/posts` && "!bg-light-3"
                         }`}>
-                    <img
+                    <CustomImage
                         src={"/icons/like.svg"}
                         alt="like"
                         width={20}
@@ -146,7 +147,7 @@ const ProfilePage = () => {
                             to={`/profile/${userId}/saved`}
                             className={`profile-tab rounded-r-lg ${pathname === `/profile/${userId}/saved` && "!bg-light-3"
                                 }`}>
-                            <img
+                            <CustomImage
                                 src={"/icons/save.svg"}
                                 alt="like"
                                 width={20}

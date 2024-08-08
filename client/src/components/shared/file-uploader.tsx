@@ -3,6 +3,7 @@ import { FileWithPath, useDropzone } from "react-dropzone"
 
 import { Button } from "../ui/button";
 import { convertFileToUrl } from "@/lib/utils";
+import CustomImage from "./custom-image";
 
 type FileUploadProps = {
     fieldChange: (files: File[]) => void;
@@ -38,13 +39,13 @@ const FileUploader = ({ fieldChange, mediaUrl, setIsFileUploaded }: FileUploadPr
                     (
                         <>
                             <div className="flex justify-center flex-1 w-full p-5 border text-dark-1 lg:p-10">
-                                <img src={fileUrl} alt="image" className="file_uploader-img" />
+                                <CustomImage src={fileUrl} alt="image" className="file_uploader-img" />
                             </div>
                             <p className="file_uploader-label">Click or drag photo to replace</p>
                         </>
                     ) : (
                         <div className="file_uploader-box">
-                            <img
+                            <CustomImage
                                 src="/icons/file-upload.svg"
                                 width={96}
                                 height={77}

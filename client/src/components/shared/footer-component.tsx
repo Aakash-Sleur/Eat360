@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 import { footerLinks } from "@/constants"
+import CustomImage from "./custom-image";
 
 const FooterComponent = () => {
     const { pathname } = useLocation();
@@ -16,7 +17,7 @@ const FooterComponent = () => {
                             to={link.route}
                             className={`${isActive && "rounded-[10px] bg-eat-orange text-white"} flex-center flex-col gap-1 p-3 transition`}
                         >
-                            <img
+                            <CustomImage
                                 src={link.imgUrl}
                                 alt={link.label}
 

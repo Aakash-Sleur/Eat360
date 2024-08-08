@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 
 import { convertFileToUrl } from "@/lib/utils";
+import CustomImage from "./custom-image";
 
 type ImageUploaderProps = {
     fieldChange: (files: File[]) => void;
@@ -39,7 +40,7 @@ const ImageUploader = ({
             <input {...getInputProps()} className="cursor-pointer" />
 
             <div className="gap-4 cursor-pointer flex-center">
-                <img
+                <CustomImage
                     src={fileUrl || "/icons/profile-placeholder.svg"}
                     alt="image"
                     className="object-cover object-top w-24 h-24 rounded-full"

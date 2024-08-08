@@ -20,7 +20,6 @@ import {
 import { AuthLayout, SignInForm, SignUpForm } from "./_auth"
 
 
-
 function App() {
   return (
     <main className="flex h-screen">
@@ -43,12 +42,13 @@ function App() {
           <Route path="/posts/:postId" element={<PostDetailsPage />} />
           <Route path="/recipes" element={<AllRecipes />} />
           <Route path="/recipes/:id" element={<RecipePage />} />
-          <Route path="/success" element={<PaymentSuccess />} />
-          <Route path="/failure" element={<PaymentFailure />} />
         </Route>
 
-        {/* Print Route */}
+        {/* Independent Routes */}
+        <Route path="/success" element={<PaymentSuccess />} />
+        <Route path="/failure" element={<PaymentFailure />} />
         <Route path="/print/:id" element={<PrintPage />} />
+
       </Routes>
       <Toaster />
     </main>

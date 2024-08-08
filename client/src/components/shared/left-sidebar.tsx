@@ -5,6 +5,7 @@ import { INavLink } from "@/lib/types";
 import { sidebarLinks } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/auth-store";
+import CustomImage from "./custom-image";
 
 const LeftSidebar = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const LeftSidebar = () => {
         <nav className="leftsidebar">
             <div className="flex flex-col gap-11">
                 <Link to="/" className="bg-white shadow-sm shadow-orange-300 rounded-xl">
-                    <img
+                    <CustomImage
                         src="/images/logo.png"
                         alt="logo"
                         width={120}
@@ -37,7 +38,7 @@ const LeftSidebar = () => {
                     </div>
                 ) : (
                     <Link to={`profile/${user._id}`} className="flex items-center gap-3 p-4 shadow-sm shadow-orange-300 bg-light-1 rounded-2xl">
-                        <img
+                        <CustomImage
                             src={user.profilePicture || "/icons/profile-placeholder.svg"}
                             alt="profile-image"
                             className="rounded-full h-14 w-14"
@@ -62,7 +63,7 @@ const LeftSidebar = () => {
                                 className={`leftsidebar-link group ${isActive && "bg-[#fa8117]/80 text-white"}`}
                             >
                                 <NavLink to={link.route} className="flex items-center gap-4 p-4">
-                                    <img
+                                    <CustomImage
                                         src={link.imgUrl}
                                         alt={link.label}
                                         className={`${isActive && "invert-white"}`}
@@ -79,7 +80,7 @@ const LeftSidebar = () => {
                 className="mr-auto space-x-4"
                 onClick={(e) => handleSignOut(e)}
             >
-                <img src="/icons/logout.svg" alt="logout" />
+                <CustomImage src="/icons/logout.svg" alt="logout" />
                 <p className="text-lg font-semibold text-rose-600">Logout</p>
             </Button>
         </nav>

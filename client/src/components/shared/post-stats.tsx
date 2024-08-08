@@ -7,6 +7,7 @@ import { checkIfExist } from "@/lib/utils";
 import ShareButton from "../buttons/share-button";
 import { useUserContext } from "@/context/auth-store";
 import { useDeletePost, useUpdatePost } from "@/lib/react-query/queries-and-mutations";
+import CustomImage from "./custom-image";
 
 const PostStats = ({ post }: { post: IPost }) => {
     const navigate = useNavigate();
@@ -67,11 +68,11 @@ const PostStats = ({ post }: { post: IPost }) => {
             <nav className="flex items-center gap-x-4 w-fit">
                 <div className="flex items-center gap-1">
                     <Button className="p-0 m-0" onClick={onLike}>
-                        {isLiked ? <img
+                        {isLiked ? <CustomImage
                             src="/icons/liked.svg"
                             className="cursor-pointer size-5"
                             alt="liked"
-                        /> : <img
+                        /> : <CustomImage
                             src="/icons/like.svg"
                             className="cursor-pointer size-5"
                             alt="like"
@@ -80,7 +81,7 @@ const PostStats = ({ post }: { post: IPost }) => {
                     <span className="text-sm text-dark-1">{post.likes}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                    <img
+                    <CustomImage
                         src="/icons/eye.svg"
                         className="w-5 h-5 cursor-pointer"
                         alt="views"
@@ -93,7 +94,7 @@ const PostStats = ({ post }: { post: IPost }) => {
                     </ShareButton>
                 </div>
                 <div className="flex items-center gap-1" onClick={() => navigate(`/posts/${post._id}`)}>
-                    <img src="/icons/reply.svg" alt="plus icon" className="cursor-pointer size-6" />
+                    <CustomImage src="/icons/reply.svg" alt="plus icon" className="cursor-pointer size-6" />
                 </div>
 
                 {post.author._id == userId && (
@@ -102,12 +103,12 @@ const PostStats = ({ post }: { post: IPost }) => {
                         <Button className="p-0 m-0" type="button" disabled={isUpdating || isDeleting} onClick={onDelete}>
 
                             {isDeleting
-                                ? <img
+                                ? <CustomImage
                                     src="/gifs/delete.gif"
                                     className="w-5 h-5 cursor-pointer"
                                     alt="delete"
                                 />
-                                : <img
+                                : <CustomImage
                                     src="/icons/delete.svg"
                                     className="w-5 h-5 cursor-pointer"
                                     alt="delete"

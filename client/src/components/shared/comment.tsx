@@ -16,6 +16,7 @@ import { Input } from '@/components//ui/input';
 import { useUserContext } from "@/context/auth-store";
 import { useCreateComment, useCreateRecipeComment } from "@/lib/react-query/queries-and-mutations";
 import { INewComment } from "@/lib/types";
+import CustomImage from "./custom-image";
 
 type CommentProps = {
     postId?: string;
@@ -65,7 +66,7 @@ const Comment = ({
                     render={({ field }) => (
                         <FormItem className='flex items-center w-full gap-3'>
                             <FormLabel>
-                                <img
+                                <CustomImage
                                     src={currentUserImage || "/icons/profile-placeholder.svg"}
                                     alt='Profile image'
                                     width={48}

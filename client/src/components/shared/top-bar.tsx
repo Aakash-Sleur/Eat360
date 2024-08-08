@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 
 import { Button } from "../ui/button"
 import { useUserContext } from "@/context/auth-store"
+import CustomImage from "./custom-image";
 
 const TopBar = () => {
     const { logoutUser, user } = useUserContext();
@@ -10,10 +11,10 @@ const TopBar = () => {
             <div className="px-5 py-2 flex-between">
 
                 <Button variant="ghost" className="shad-button_ghost" onClick={logoutUser}>
-                    <img src="/icons/logout.svg" alt="logout" />
+                    <CustomImage src="/icons/logout.svg" alt="logout" />
                 </Button>
                 <Link to="/" className="flex items-center gap-3">
-                    <img
+                    <CustomImage
                         src="/images/logo.png"
                         alt="logo"
                         width={130}
@@ -21,7 +22,7 @@ const TopBar = () => {
                     />
                 </Link>
                 <Link to={`/profile/${user._id}`} className="gap-3 flex-center">
-                    <img
+                    <CustomImage
                         src={user.profilePicture || '/icons/profile-placeholder.svg'}
                         alt="profile-photo"
                         className="rounded-full size-14"

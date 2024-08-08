@@ -12,6 +12,7 @@ import Comment from '@/components/shared/comment';
 import Stats from '@/components/shared/stats';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import CustomImage from '@/components/shared/custom-image';
 
 
 const RecipePage = () => {
@@ -87,7 +88,7 @@ const RecipePage = () => {
                     ))}
                 </div>
                 <Stats authorId={recipe.createdBy} recipe={recipe} />
-                <img
+                <CustomImage
                     src={recipe.banner_image}
                     alt="Recipe banner"
                     className='w-full max-w-5xl mx-auto my-5 rounded-lg shadow-lg max-h-[600px] object-cover'

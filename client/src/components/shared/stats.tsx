@@ -9,6 +9,7 @@ import ShareButton from "../buttons/share-button";
 import { useUserContext } from "@/context/auth-store";
 import { useGetUserById, useUpdateRecipe, useUpdateUser } from "@/lib/react-query/queries-and-mutations";
 import { useToast } from "../ui/use-toast";
+import CustomImage from "./custom-image";
 
 type StatsProps = {
     authorId: string;
@@ -28,7 +29,7 @@ type StatButtonProps = {
 
 const StatButton = ({ onClick, iconSrc, altText, text, ariaLabel, isLast, isPremium }: StatButtonProps) => (
     <Button disabled={isPremium || false} onClick={onClick} className={`flex items-center space-x-1 ${!isLast && "border-r"} border-gray-400 rounded-none`} aria-label={ariaLabel}>
-        <img src={iconSrc} alt={altText} className="w-4 h-4 md:w-8 md:h-8" />
+        <CustomImage src={iconSrc} alt={altText} className="w-4 h-4 md:w-8 md:h-8" />
         <span className="text-xs">{text}</span>
     </Button>
 );

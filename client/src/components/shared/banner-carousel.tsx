@@ -10,6 +10,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import { banner_carousel_items } from "@/constants"
+import CustomImage from "./custom-image"
 
 
 export function BannerCarousel() {
@@ -29,7 +30,7 @@ export function BannerCarousel() {
                     <CarouselItem key={index}>
                         <Card>
                             <CardContent className="flex items-center justify-center p-0">
-                                <img src={banner.image} alt={banner.name} className="object-cover h-[400px] w-full rounded-xl" />
+                                <CustomImage src={banner.image} alt={banner.name} className="object-cover h-[400px] w-full rounded-xl" />
                             </CardContent>
                         </Card>
                     </CarouselItem>
