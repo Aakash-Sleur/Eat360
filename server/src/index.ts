@@ -54,7 +54,7 @@ const options = {
 // mongodb connection
 mongoose
   .connect(MONGO_URI!, options)
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB🤝"))
   .catch((err) => console.error("Error while connecting to MongoDB", err));
 
 // routes
@@ -62,5 +62,5 @@ app.use("/", router());
 
 // listening at port
 server.listen(PORT, () => {
-  console.log(`[server]: Server is running at http://localhost:${PORT}`);
+  console.log(`[server]: Server is running at http://localhost:${PORT} 🚀`);
 });
