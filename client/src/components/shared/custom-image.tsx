@@ -8,6 +8,7 @@ interface WebPImageProps {
     width?: number;
     height?: number;
     className?: string;
+    onClick?: React.MouseEventHandler<HTMLImageElement>;
 }
 
 const CustomImage: React.FC<WebPImageProps> = ({ src, alt, ...props }) => {
