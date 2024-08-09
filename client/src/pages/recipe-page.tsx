@@ -69,8 +69,8 @@ const RecipePage = () => {
     const date = new Date(recipe.createdAt);
 
     return (
-        <article className='max-w-5xl bg-[#f9fafb] p-5 mx-auto space-y-8 overflow-scroll custom-scrollbar'>
-            <header className='p-8 space-y-6 text-center bg-white rounded-md shadow-md'>
+        <article className='max-w-7xl bg-[#f9fafb] p-5 mx-auto space-y-8 overflow-scroll custom-scrollbar'>
+            <header className='w-full p-8 space-y-6 text-center bg-white rounded-md shadow-md'>
                 <h1 className='text-5xl font-extrabold underline font-poppins'>{recipe.title}</h1>
                 <p className='text-sm text-left'>Last updated: {date.toDateString()}</p>
                 <p className='p-4 text-lg italic prose-lg text-left rounded-md shadow-sm font-poppins text-dark-1'>

@@ -7,13 +7,14 @@ import {
 } from "../controllers/payment.controller";
 
 export default (router: express.Router) => {
-  router.post("/create-payment-intent", createSession);
-  router.post(
-    "/webhook",
-    express.raw({ type: "application/json" }),
-    handleStripeWebhook
-  );
-  router.get("/session/:sessionId", getSession);
+  router
+    .post("/create-payment-intent", createSession)
+    .post(
+      "/webhook",
+      express.raw({ type: "application/json" }),
+      handleStripeWebhook
+    )
+    .get("/session/:sessionId", getSession);
 
   return router;
 };

@@ -17,8 +17,7 @@ const TopBar = () => {
                     <CustomImage
                         src="/images/logo.png"
                         alt="logo"
-                        width={130}
-                        height={225}
+                        className="h-20 w-28"
                     />
                 </Link>
                 <Link to={`/profile/${user._id}`} className="gap-3 flex-center">
