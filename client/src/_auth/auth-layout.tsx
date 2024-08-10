@@ -14,13 +14,13 @@ const AuthLayout = () => {
                     <Navigate to="/" />
                 ) : (
                     <>
-                        <section className="flex flex-col items-center justify-center flex-1 p-10">
+                        <section className="flex flex-col items-center justify-center flex-1 p-10 overflow-scroll custom-scrollbar">
                             <Outlet />
                         </section>
                         <CustomImage
                             src="/images/side-image.avif"
                             alt="logo"
-                            className="hidden object-cover w-1/2 h-screen bg-no-repeat xl:block"
+                            className="hidden object-cover w-1/2 h-full bg-no-repeat xl:block"
                         />
                     </>
                 )

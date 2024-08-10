@@ -7,7 +7,6 @@ import GridList from "@/components/shared/grid-recipelist";
 import { useGetRecipes } from "@/lib/react-query/queries-and-mutations"
 
 
-
 const AllRecipes = () => {
     const { ref, inView } = useInView();
     const { data: recipes, fetchNextPage, hasNextPage } = useGetRecipes();
@@ -26,17 +25,15 @@ const AllRecipes = () => {
                     <img src="/icons/create.svg" alt="add-post" className="size-10" />
                 </Link>
             </div>
-            <ul className="w-full">
-                {
-                    recipes.pages?.map((page, idx) => (
-                        <React.Fragment key={idx}>
-                            {
-                                <GridList recipes={page} />
-                            }
-                        </React.Fragment>
-                    ))
-                }
-            </ul>
+            {
+                recipes.pages?.map((page, idx) => (
+                    <React.Fragment key={idx}>
+                        {
+                            <GridList recipes={page} />
+                        }
+                    </React.Fragment>
+                ))
+            }
             {hasNextPage && (
                 <div ref={ref} className="mt-10">
                     <Loader />

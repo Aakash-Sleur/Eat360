@@ -42,7 +42,7 @@ const createSession = async (req: Request, res: Response) => {
         enabled: true,
       },
       success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}&recipeId=${recipeId}`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+      cancel_url: `${process.env.CLIENT_URL}/failure?recipeId=${recipeId}?status=failure`,
       metadata: {
         recipeId,
         userId,

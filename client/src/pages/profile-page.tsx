@@ -160,15 +160,21 @@ const ProfilePage = () => {
             </div>
 
             <Routes>
-                <Route index element={<UserRecipeGrid recipes={userInView.recipes} />} />
+                <Route index element={
+                    userInView.recipes.length === 0
+                        ? <p>Currently no recipes</p>
+                        : <UserRecipeGrid recipes={userInView.recipes} />
+                } />
                 <Route path="/posts" element={
                     <ul className="flex flex-col gap-4">
                         {
-                            userInView.posts.map((post) => (
-                                <li key={post._id}>
-                                    <PostCard post={post} userDetails={userInView} />
-                                </li>
-                            ))
+                            userInView.posts.length === 0
+                                ? <p>Currently no posts</p>
+                                : userInView.posts.map((post) => (
+                                    <li key={post._id} className="w-full">
+                                        <PostCard post={post} />
+                                    </li>
+                                ))
                         }
                     </ul>
                 } />

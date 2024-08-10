@@ -9,7 +9,7 @@ const RightSidebar = () => {
     return (
         <aside className="rightsidebar">
             <h2 className="text-xl font-bold">Top Recipes:</h2>
-            <div className="flex flex-col gap-4 max-w-[500px]">
+            <div className="flex flex-col gap-4 max-w-[500px] overflow-scroll custom-scrollbar">
                 {
                     recipes?.map((recipe) => (
                         <Link to={`/recipes/${recipe._id}`} key={recipe._id}>

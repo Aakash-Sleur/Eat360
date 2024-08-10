@@ -137,12 +137,12 @@ const Stats = ({ authorId, recipe }: StatsProps) => {
                     isLiked={isLiked}
                 />
                 <ShareButton id={recipe._id} type="recipes">
-                    Share
+                    {''}
                 </ShareButton>
                 <StatButton
                     iconSrc="/icons/printer.svg"
                     altText="Print icon"
-                    text="Print"
+                    text=""
                     ariaLabel="Print this recipe"
                     onClick={() => navigate(`/print/${recipe._id}`)}
                     isPremium={recipe.isPremium && recipe.createdBy !== user._id && !checkIfExist(recipe.boughtBy, user._id)}
@@ -150,7 +150,7 @@ const Stats = ({ authorId, recipe }: StatsProps) => {
                 <StatButton
                     iconSrc={save ? "/icons/saved.svg" : "/icons/save.svg"}
                     altText="Print icon"
-                    text="Save"
+                    text=""
                     ariaLabel="save this recipe"
                     onClick={() => handleSaveRecipe()}
                     isLast={true}

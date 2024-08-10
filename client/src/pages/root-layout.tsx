@@ -7,7 +7,7 @@ import LeftSidebar from '@/components/shared/left-sidebar'
 
 const RootLayout = () => {
     return (
-        <div className="w-full md:flex bg-custom">
+        <div className="w-full h-screen md:flex bg-custom">
             <TopBar />
             <LeftSidebar />
 

@@ -70,15 +70,15 @@ export const categories = [
   },
   {
     name: "Chinese",
-    image: "/images/dummy/chinese.jpg",
+    image: "/images/dummy/chinese.webp",
   },
   {
     name: "Japanese",
-    image: "/images/dummy/japanese.jpg",
+    image: "/images/dummy/japanese.webp",
   },
   {
     name: "breakfast",
-    image: "/images/dummy/breakfast.jpg",
+    image: "/images/dummy/breakfast.webp",
   },
   {
     name: "lunch",
@@ -86,6 +86,6 @@ export const categories = [
   },
   {
     name: "dinner",
-    image: "/images/dummy/dinner.jpg",
+    image: "/images/dummy/dinner.webp",
   },
 ];

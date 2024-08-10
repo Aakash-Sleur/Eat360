@@ -115,11 +115,11 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #fff;
+    background: transparent;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #fff;
+    background: transparent;
     border-radius: 50px;
   }
 
@@ -234,11 +234,11 @@
 
   /* Grid Post List */
   .grid-container {
-    @apply grid grid-cols-1 gap-7 lg:grid-cols-2 2xl:grid-cols-3;
+    @apply grid grid-cols-1 gap-7 lg:grid-cols-2;
   }
 
   .grid-post_link {
-    @apply flex rounded-[24px] relative overflow-hidden cursor-pointer min-w-80 h-72 hover:scale-105;
+    @apply flex rounded-[24px] relative overflow-hidden cursor-pointer min-w-72 h-72 hover:scale-105;
   }
 
   .grid-post_user {

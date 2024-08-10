@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Loader } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
 import PostCard from "@/components/shared/post-card";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useGetPosts } from "@/lib/react-query/queries-and-mutations";
 import { useCreatePostModal } from "@/hooks/modal-hooks";
@@ -17,7 +17,7 @@ const PostsPage = () => {
     }, [inView])
 
     if (!posts) {
-        return <Loader className="animate-spin" />
+        return <Loader />
     }
 
     return (
@@ -46,7 +46,7 @@ const PostsPage = () => {
             </ul>
             {hasNextPage && (
                 <div ref={ref} className="mt-10">
-                    <Loader className="animate-spin" />
+                    <Loader />
                 </div>
             )}
         </section>
