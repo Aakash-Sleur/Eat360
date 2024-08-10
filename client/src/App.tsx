@@ -23,7 +23,7 @@ const NotFoundPage = lazy(() => import("./pages/not-found"));
 
 function App() {
   return (
-    <main className="flex h-screen overflow-visible">
+    <main className="flex h-screen overflow-hidden">
       <Routes>
         {/* Auth Routes */}
         <Route element={<AuthLayout />}>
