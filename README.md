@@ -10,6 +10,7 @@
 <em>P.S. This is the first time I've done a project entirely on my own, so please forgive any code quality issues or bugs you may encounter.</em>
 
 
+
 ## Core Components
 **MongoDB**  
 - Database  
@@ -55,6 +56,8 @@
 - JavaScript compiler  
 - Used to transpile modern JavaScript and TypeScript code into a version compatible with older browsers and environments.
 
+
+
 ## Features
 
 - **Responsive Design**
@@ -91,8 +94,25 @@
 - **Image Handling**
   - Image upload and optimization using Cloudinary.
 
+
+
  ## Preview
+
+![Screenshot 2024-08-11 113650](https://github.com/user-attachments/assets/efeaf898-5600-48b7-acfd-648ce3603d60)
  
+![Screenshot 2024-08-10 210410](https://github.com/user-attachments/assets/ba7b98d4-7b42-4412-9756-7de33dc86b1b)
+
+![Screenshot 2024-08-10 212923](https://github.com/user-attachments/assets/ed0177a4-8ab0-4e32-aec7-26a1a6c11289)
+
+![Screenshot 2024-08-10 212955](https://github.com/user-attachments/assets/ca517f18-ae04-4139-b792-669114782ec9)
+
+![Screenshot 2024-08-10 213011](https://github.com/user-attachments/assets/554733e1-6862-4e83-9834-b8f63dc54948)
+
+![Screenshot 2024-08-10 213037](https://github.com/user-attachments/assets/fc9015af-ddd0-4db0-a3f1-3350f529fc80)
+
+![Screenshot 2024-08-10 213102](https://github.com/user-attachments/assets/a86a833e-56e7-40fe-bb2b-cad7236a1256)
+
+
  
 ## Demo User Credentials
 
@@ -104,10 +124,89 @@
 ## Live Link
 https://eat360-client.vercel.app/
 
+Here’s a more refined version of your instructions:
+
+---
 
 ## Get Started
+
+The structure of your instructions is generally clear and well-organized. However, to enhance readability and ensure that important information stands out, consider these slight adjustments:
+
+1. **Group related tasks under subheadings**: This helps users easily navigate through installation steps and environment setup.
+  
+2. **Use bullet points or numbered lists for clarity**: Especially useful when users have to follow sequential steps.
+
+Here’s an improved structure:
+
+---
+
+## Get Started
+
+### Prerequisites
+- **Node.js** 14.x
+- **MongoDB** (local or Atlas)
+- **Code Editor** (e.g., VS Code, WebStorm)
+
+### Installation
+1. Install dependencies:
+    ```bash
+    npm install
+    ```
+2. Navigate to the client folder and install dependencies:
+    ```bash
+    cd client && npm install
+    ```
+3. Navigate to the server folder and install dependencies:
+    ```bash
+    cd ../server && npm install
+    ```
+4. Run Nexus:
+    ```bash
+    npm run nexus
+    ```
+
+### Environment Variables
+- The required environment variables for both the client and server are detailed in the README.md files within their respective folders in this repository.
 
 
 ## Future Improvements
 
-##
+- **Collections**
+  - Option to group similar recipes into collections for easy organization and publication.
+  - Allow users to share entire collections publicly or privately.
+
+- **Advanced Filtering**
+  - Implement filters based on various criteria such as date, premium status, vegetarian or non-vegetarian, difficulty level, preparation time, and more.
+  - Add personalized filtering options based on user preferences and dietary restrictions.
+
+- **JWT Integration**
+  - Enhance security by integrating JWT (JSON Web Token) for more robust authentication and authorization across the application.
+
+- **OAuth Functionality**
+  - Provide users with the option to sign in using their social media accounts (Google, Facebook, etc.) via OAuth.
+  - Enable seamless account linking and data import from other platforms.
+
+- **Social Sharing Options**
+  - Add social sharing buttons to recipes and posts, allowing users to share content directly to their favorite social media platforms.
+
+- **Subscription Model**
+  - Introduce a subscription service for premium content, offering tiered access to exclusive recipes, collections, and features.
+  - Include options for monthly, quarterly, and annual subscriptions.
+
+- **Timed Upload Option**
+  - Allow users to schedule posts and recipe uploads for future dates and times.
+  - Include features for draft management and post previews.
+
+- **Posts with Recipe References**
+  - Enable users to create posts that directly reference specific recipes.
+  - Automatically link recipes within posts for easy navigation and cross-referencing.
+
+- **User Activity Feed**
+  - Add a personalized activity feed that shows recent actions by followed users, such as new recipes, posts, and comments.
+  - Include notifications for interactions on user content (likes, comments, shares).
+
+- **In-App Messaging**
+  - Implement a messaging system that allows users to communicate directly with each other.
+  - Enable recipe sharing and collaboration through private messages.
+ 
+_ _ _ _
