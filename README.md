@@ -36,9 +36,26 @@
 - Frontend tooling  
 - Next-generation frontend tool that provides a fast and efficient development environment, with native support for TypeScript.
 
+
 **TanStack Query**  
 - Data fetching library  
 - Powerful data-fetching and state management tool for React, allowing efficient handling of server-side data, caching, and synchronization.
+
+
+**Zod**
+
+ - Validation Library
+ - TypeScript-first schema declaration and validation library used to ensure the integrity of data structures throughout the application. It helps in defining and enforcing data types, validating inputs, and providing meaningful error messages.
+
+**Zustand**
+ - State Management
+ - A lightweight state management library for React, used to manage the application's global and local state with minimal boilerplate. It offers a simple, flexible, and scalable approach to handling state across components.
+
+### TailwindCSS
+
+ - CSS Framework
+ - A utility-first CSS framework used to design responsive and modern user interfaces. It allows developers to rapidly build custom designs without writing custom CSS by providing a comprehensive set of pre-defined classes.
+
 
 **Cloudinary**  
 - Media storage  
@@ -125,8 +142,6 @@
 https://eat360-client.vercel.app/
 
 Here’s a more refined version of your instructions:
-
----
 
 ## Get Started
 
