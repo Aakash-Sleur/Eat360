@@ -9,8 +9,9 @@ import "dotenv/config";
 
 // Internal modules
 import router from "./router";
-import { MONGO_URI, PORT } from "./config";
+import { corsOptions, MONGO_URI, mongodbOptions, PORT } from "./config";
 import path from "path";
+import { method } from "lodash";
 
 // app
 const app: Express = express();
@@ -38,7 +39,8 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cors());
+
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
@@ -47,13 +49,9 @@ app.get("/", (req, res) => {
 
 const server = http.createServer(app);
 
-const options = {
-  serverSelectionTimeoutMS: 5000,
-};
-
 // mongodb connection
 mongoose
-  .connect(MONGO_URI!, options)
+  .connect(MONGO_URI!, mongodbOptions)
   .then(() => console.log("Connected to MongoDB🤝"))
   .catch((err) => console.error("Error while connecting to MongoDB", err));
 
