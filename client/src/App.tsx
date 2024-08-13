@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, ReactElement } from "react";
 import { Toaster } from "./components/ui/toaster";
 import { AuthLayout, SignInForm, SignUpForm } from "./_auth";
 import Loader from "./components/loader";
@@ -21,142 +21,47 @@ const PaymentFailure = lazy(() => import("./pages/payment-failure-page"));
 const PrintPage = lazy(() => import("./pages/print-page"));
 const NotFoundPage = lazy(() => import("./pages/not-found"));
 
+// Custom Lazy Load Component
+const LazyLoad = (Component: React.FC): ReactElement => (
+  <Suspense fallback={<Loader />}>
+    <Component />
+  </Suspense>
+);
+
 function App() {
   return (
     <main className="flex h-screen overflow-hidden">
-      <Routes>
-        {/* Auth Routes */}
-        <Route element={<AuthLayout />}>
-          <Route path="/sign-up" element={<SignUpForm />} />
-          <Route path="/sign-in" element={<SignInForm />} />
-        </Route>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          {/* Auth Routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/sign-up" element={<SignUpForm />} />
+            <Route path="/sign-in" element={<SignInForm />} />
+          </Route>
 
-        {/* Root Routes */}
-        <Route
-          element={
-            <Suspense fallback={<Loader />}>
-              <RootLayout />
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<Loader />}>
-                <Home />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/explore/*"
-            element={
-              <Suspense fallback={<Loader />}>
-                <ExplorePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/profile/:userId/*"
-            element={
-              <Suspense fallback={<Loader />}>
-                <ProfilePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/create-recipe"
-            element={
-              <Suspense fallback={<Loader />}>
-                <CreateRecipePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/recipes"
-            element={
-              <Suspense fallback={<Loader />}>
-                <AllRecipes />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/recipes/:id"
-            element={
-              <Suspense fallback={<Loader />}>
-                <RecipePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/update-recipe/:id"
-            element={
-              <Suspense fallback={<Loader />}>
-                <UpdateRecipePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/update-profile/:userId"
-            element={
-              <Suspense fallback={<Loader />}>
-                <UpdateProfilePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/posts"
-            element={
-              <Suspense fallback={<Loader />}>
-                <PostsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/posts/:postId"
-            element={
-              <Suspense fallback={<Loader />}>
-                <PostDetailsPage />
-              </Suspense>
-            }
-          />
-        </Route>
+          {/* Root Routes */}
+          <Route element={LazyLoad(RootLayout)}>
+            <Route index element={LazyLoad(Home)} />
+            <Route path="/explore/*" element={LazyLoad(ExplorePage)} />
+            <Route path="/profile/:userId/*" element={LazyLoad(ProfilePage)} />
+            <Route path="/create-recipe" element={LazyLoad(CreateRecipePage)} />
+            <Route path="/recipes" element={LazyLoad(AllRecipes)} />
+            <Route path="/recipes/:id" element={LazyLoad(RecipePage)} />
+            <Route path="/update-recipe/:id" element={LazyLoad(UpdateRecipePage)} />
+            <Route path="/update-profile/:userId" element={LazyLoad(UpdateProfilePage)} />
+            <Route path="/posts" element={LazyLoad(PostsPage)} />
+            <Route path="/posts/:postId" element={LazyLoad(PostDetailsPage)} />
+          </Route>
 
-        {/* Independent Routes */}
-        <Route
-          path="/success"
-          element={
-            <Suspense fallback={<Loader />}>
-              <PaymentSuccess />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/failure"
-          element={
-            <Suspense fallback={<Loader />}>
-              <PaymentFailure />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/print/:id"
-          element={
-            <Suspense fallback={<Loader />}>
-              <PrintPage />
-            </Suspense>
-          }
-        />
+          {/* Independent Routes */}
+          <Route path="/success" element={LazyLoad(PaymentSuccess)} />
+          <Route path="/failure" element={LazyLoad(PaymentFailure)} />
+          <Route path="/print/:id" element={LazyLoad(PrintPage)} />
 
-        {/* 404 Route */}
-        <Route
-          path="*"
-          element={
-            <Suspense fallback={<Loader />}>
-              <NotFoundPage />
-            </Suspense>
-          }
-        />
-      </Routes>
+          {/* 404 Route */}
+          <Route path="*" element={LazyLoad(NotFoundPage)} />
+        </Routes>
+      </Suspense>
       <Toaster />
     </main>
   );

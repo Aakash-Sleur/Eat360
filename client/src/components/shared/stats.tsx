@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Loader from "../loader";
@@ -14,7 +14,7 @@ import CustomImage from "./custom-image";
 type StatsProps = {
     authorId: string;
     recipe: IRecipe;
-}
+};
 
 type StatButtonProps = {
     onClick: () => void;
@@ -22,91 +22,69 @@ type StatButtonProps = {
     altText: string;
     text: number | string;
     ariaLabel: string;
-    isLiked?: boolean;
     isLast?: boolean;
-    isPremium?: boolean;
-}
+    disabled?: boolean;
+};
 
-const StatButton = ({ onClick, iconSrc, altText, text, ariaLabel, isLast, isPremium }: StatButtonProps) => (
-    <Button disabled={isPremium || false} onClick={onClick} className={`flex items-center space-x-1 ${!isLast && "border-r"} border-gray-400 rounded-none`} aria-label={ariaLabel}>
+const StatButton = ({ onClick, iconSrc, altText, text, ariaLabel, isLast, disabled }: StatButtonProps) => (
+    <Button
+        disabled={disabled}
+        onClick={onClick}
+        className={`flex items-center space-x-1 ${!isLast && "border-r"} border-gray-400 rounded-none`}
+        aria-label={ariaLabel}
+    >
         <CustomImage src={iconSrc} alt={altText} className="w-4 h-4 md:w-8 md:h-8" />
         <span className="text-xs">{text}</span>
     </Button>
 );
 
 const Stats = ({ authorId, recipe }: StatsProps) => {
-    const { data: author } = useGetUserById(authorId);
-    const { mutateAsync: updateUser } = useUpdateUser()
+    const { data: author, isLoading: authorLoading } = useGetUserById(authorId);
+    const { mutateAsync: updateUser, isPending: isUpdatePending } = useUpdateUser();
     const { user, checkAuthUser } = useUserContext();
-    const [isLiked, setIsLiked] = useState(checkIfExist(recipe.likedBy, user._id));
-    const savedRecipeIds = user.savedRecipes.map(recipe => recipe._id)
-
-    const [save, setSave] = useState(checkIfExist(savedRecipeIds, recipe._id))
-    const { mutateAsync: updateRecipe } = useUpdateRecipe();
+    const { mutateAsync: updateRecipe, isPending: isUpdateRecipePending } = useUpdateRecipe();
     const navigate = useNavigate();
     const toast = useToast();
+    const savedRecipesIds = user.savedRecipes.map(recipe => recipe._id)
 
-    useEffect(() => {
-        const updateRecipeViews = async () => {
-            if (!checkIfExist(recipe.viewedBy, user._id) && recipe) {
-                try {
-                    await updateRecipe({
-                        _id: recipe._id,
-                        views: recipe.views + 1,
-                        viewedBy: [...recipe.viewedBy, user._id]
-                    });
-                } catch (error) {
-                    console.error(error)
-                }
-            }
-        }
+    const isLiked = useMemo(() => checkIfExist(recipe.likedBy, user._id), [recipe.likedBy, user._id]);
+    const isSaved = useMemo(() => checkIfExist(savedRecipesIds, recipe._id), [user.savedRecipes, recipe._id]);
 
-        updateRecipeViews();
-    }, [user._id, updateRecipe, recipe.viewedBy]);
+    const handleSaveRecipe = useCallback(async () => {
+        const updatedSavedRecipes = isSaved
+            ? savedRecipesIds.filter(id => id !== recipe._id)
+            : [...savedRecipesIds, recipe._id];
 
-    if (!author) {
-        return <Loader />;
-    }
+        await updateUser({ id: user._id, savedRecipes: updatedSavedRecipes });
 
-    const handleSaveRecipe = async () => {
-        if (!save) {
-            await updateUser({
-                id: user._id,
-                savedRecipes: [...savedRecipeIds, recipe._id]
-            });
-            toast.toast({
-                title: 'Recipe Saved'
-            })
-        } else {
-            await updateUser({
-                id: user._id,
-                savedRecipes: savedRecipeIds.filter(id => id !== recipe._id)
-            });
-            toast.toast({
-                title: 'Recipe Unsaved'
-            })
-        }
-        setSave(!save);
+        toast.toast({ title: isSaved ? "Recipe Unsaved" : "Recipe Saved" });
         checkAuthUser();
-    }
+    }, [isSaved, user._id, user.savedRecipes, recipe._id, updateUser, toast, checkAuthUser]);
 
-    const handleLike = async () => {
+    const handleLike = useCallback(async () => {
         const newLikedList = isLiked
             ? recipe.likedBy.filter(id => id !== user._id)
             : [...recipe.likedBy, user._id];
         const newLikes = isLiked ? recipe.likes - 1 : recipe.likes + 1;
 
         try {
-            await updateRecipe({
-                _id: recipe._id,
-                likes: newLikes,
-                likedBy: newLikedList
-            });
-            setIsLiked(!isLiked);
+            await updateRecipe({ _id: recipe._id, likes: newLikes, likedBy: newLikedList });
         } catch (error) {
             console.error(error);
         }
-    };
+    }, [isLiked, recipe._id, recipe.likes, recipe.likedBy, user._id, updateRecipe]);
+
+    useEffect(() => {
+        if (!checkIfExist(recipe.viewedBy, user._id)) {
+            updateRecipe({
+                _id: recipe._id,
+                views: recipe.views + 1,
+                viewedBy: [...recipe.viewedBy, user._id],
+            }).catch(console.error);
+        }
+    }, [user._id, updateRecipe, recipe]);
+
+    if (authorLoading || !author) return <Loader />;
 
     return (
         <section>
@@ -127,17 +105,18 @@ const Stats = ({ authorId, recipe }: StatsProps) => {
                     text={recipe.views}
                     ariaLabel="Number of views"
                     onClick={() => { }}
+                    disabled={isUpdatePending || isUpdateRecipePending}
                 />
                 <StatButton
-                    onClick={() => handleLike()}
+                    onClick={handleLike}
                     iconSrc={isLiked ? "/icons/liked.svg" : "/icons/like.svg"}
                     altText={isLiked ? "Liked icon" : "Like icon"}
                     text={recipe.likes}
                     ariaLabel="Number of likes"
-                    isLiked={isLiked}
+                    disabled={isUpdatePending || isUpdateRecipePending}
                 />
                 <ShareButton id={recipe._id} type="recipes">
-                    {''}
+                    {""}
                 </ShareButton>
                 <StatButton
                     iconSrc="/icons/printer.svg"
@@ -145,19 +124,20 @@ const Stats = ({ authorId, recipe }: StatsProps) => {
                     text=""
                     ariaLabel="Print this recipe"
                     onClick={() => navigate(`/print/${recipe._id}`)}
-                    isPremium={recipe.isPremium && recipe.createdBy !== user._id && !checkIfExist(recipe.boughtBy, user._id)}
+                    disabled={recipe.isPremium && recipe.createdBy !== user._id && !checkIfExist(recipe.boughtBy, user._id)}
                 />
                 <StatButton
-                    iconSrc={save ? "/icons/saved.svg" : "/icons/save.svg"}
-                    altText="Print icon"
+                    iconSrc={isSaved ? "/icons/saved.svg" : "/icons/save.svg"}
+                    altText="Save icon"
                     text=""
-                    ariaLabel="save this recipe"
-                    onClick={() => handleSaveRecipe()}
-                    isLast={true}
+                    ariaLabel="Save this recipe"
+                    onClick={handleSaveRecipe}
+                    isLast
+                    disabled={isUpdatePending || isUpdateRecipePending}
                 />
             </div>
         </section>
     );
-}
+};
 
 export default Stats;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useUserContext } from "@/context/auth-store";
 import {
     DropdownMenu,
@@ -20,18 +19,19 @@ type ProfileRecipeCardProps = {
     recipeId: string;
 };
 
-
-const ProfileRecipeCard: React.FC<ProfileRecipeCardProps> = ({ recipeId }) => {
+const ProfileRecipeCard = React.memo(({ recipeId }: ProfileRecipeCardProps) => {
     const navigate = useNavigate();
     const { user: { _id: userId } } = useUserContext();
     const { recipe, isDeleting, deleteRecipe } = useRecipe(recipeId);
 
-
     if (!recipe) return <Loader />;
-    if (!recipe.isPublic && recipe.createdBy !== userId) return <div className="hidden"></div>
+
+    if (!recipe.isPublic && recipe.createdBy !== userId) return null;
+
+    const handleEdit = () => navigate(`/update-recipe/${recipe._id}`);
+    const handleDelete = () => deleteRecipe(recipe._id);
 
     return (
-
         <li className="grid-post_link">
             {userId === recipe.createdBy && (
                 <DropdownMenu>
@@ -41,16 +41,16 @@ const ProfileRecipeCard: React.FC<ProfileRecipeCardProps> = ({ recipeId }) => {
                     <DropdownMenuContent className="w-40 p-4 bg-light-1 rounded-xl">
                         <DropdownMenuLabel>Menu</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => navigate(`/update-recipe/${recipe._id}`)}>
-                            <Edit className="mr-2 cursor-pointer" /> Edit
+                        <DropdownMenuItem onClick={handleEdit}>
+                            <Edit className="mr-2" /> Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <ShareButton id={recipeId} type="recipes">
-                                share
+                                Share
                             </ShareButton>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => deleteRecipe(recipe._id)} disabled={isDeleting}>
-                            <Trash className="mr-2 text-red-500 cursor-pointer" /> Delete
+                        <DropdownMenuItem onClick={handleDelete} disabled={isDeleting}>
+                            <Trash className="mr-2 text-red-500" /> Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -61,6 +61,6 @@ const ProfileRecipeCard: React.FC<ProfileRecipeCardProps> = ({ recipeId }) => {
             </Link>
         </li>
     );
-};
+});
 
 export default ProfileRecipeCard;

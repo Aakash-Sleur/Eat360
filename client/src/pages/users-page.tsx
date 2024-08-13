@@ -6,9 +6,6 @@ import { IUser } from '@/lib/types';
 const UsersPage = () => {
     const { data: users, isLoading } = useGetUsers();
 
-    if (isLoading) {
-        return <>Waiting</>
-    }
 
     return (
         <div className="common-container">

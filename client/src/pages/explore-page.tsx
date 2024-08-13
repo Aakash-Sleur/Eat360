@@ -29,7 +29,6 @@ const ExplorePage = () => {
     const shouldShowPosts = !shouldShowSearchResults &&
         recipes?.pages.every((item) => item?.length === 0);
 
-    if (!recipes) return <Loader />
 
     return (
         <section className="explore-container">
