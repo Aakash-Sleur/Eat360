@@ -41,29 +41,6 @@ export default function Home() {
     const { data: topRecipes } = useGetTopRecipes();
     const { data: topUsers } = useGetTopUsers();
 
-    const topChefs = [
-        {
-            id: 1,
-            name: "Chef John",
-            avatar: "/placeholder.svg?height=100&width=100",
-            specialty: "Italian Cuisine",
-            followers: "125K"
-        },
-        {
-            id: 2,
-            name: "Chef Maria",
-            avatar: "/placeholder.svg?height=100&width=100",
-            specialty: "Mexican Cuisine",
-            followers: "98K"
-        },
-        {
-            id: 3,
-            name: "Chef Lee",
-            avatar: "/placeholder.svg?height=100&width=100",
-            specialty: "Asian Fusion",
-            followers: "156K"
-        }
-    ]
 
     console.log(topUsers)
 

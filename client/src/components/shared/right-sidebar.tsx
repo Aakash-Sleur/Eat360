@@ -51,9 +51,7 @@ const RightSidebar = () => {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                                     <div className="absolute bottom-0 w-full p-3">
                                         <h3 className="text-lg font-semibold text-white line-clamp-2">{recipe.title}</h3>
-                                        <p className="mt-1 text-sm text-orange-200">
-                                            by {recipe.createdBy?.name || 'Unknown'}
-                                        </p>
+
                                     </div>
                                 </article>
                             </Link>
