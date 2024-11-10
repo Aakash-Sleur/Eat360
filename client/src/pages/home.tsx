@@ -129,7 +129,6 @@ export default function Home() {
                                             <h3 className="text-lg font-semibold">{recipe.title}</h3>
                                         </div>
                                         <div className="flex items-center justify-between mt-4">
-                                            <span className="text-sm text-gray-600">By {recipe.createdBy?.username || ""}</span>
                                             <span className="text-sm text-orange-600">{recipe.likes} likes</span>
                                         </div>
                                     </CardContent>
