@@ -70,6 +70,12 @@ export type IUpdateProfile = {
   savedRecipes?: string[];
 };
 
+export type FilterOptions = {
+  tags: string[];
+  isPremium: boolean | null;
+  sortBy: string;
+};
+
 type Ingredient = {
   name: string;
   quantity: string;

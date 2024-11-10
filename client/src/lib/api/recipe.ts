@@ -1,7 +1,13 @@
 import axios from "axios";
 
 import { instance } from "../config";
-import { ICreatedRecipe, INewComment, IRecipe, IUpdatedRecipe } from "../types";
+import {
+  FilterOptions,
+  ICreatedRecipe,
+  INewComment,
+  IRecipe,
+  IUpdatedRecipe,
+} from "../types";
 
 async function getRecipes(
   pageNumber: number = 1,
@@ -79,12 +85,17 @@ async function updateRecipe(
   }
 }
 
-async function searchRecipe(searchTerm: string) {
+async function searchRecipe(searchTerm: string, filters: FilterOptions) {
   try {
     const response = await axios.get(
       `${instance.defaults.baseURL}/recipes/search`,
       {
-        params: { term: searchTerm },
+        params: {
+          term: searchTerm,
+          tags: filters.tags,
+          isPremium: filters.isPremium,
+          sortBy: filters.sortBy,
+        },
       }
     );
 
@@ -93,7 +104,6 @@ async function searchRecipe(searchTerm: string) {
     console.error(error);
   }
 }
-
 async function deleteRecipe(id: string): Promise<void> {
   try {
     await axios.delete(`${instance.defaults.baseURL}/recipes/${id}`);

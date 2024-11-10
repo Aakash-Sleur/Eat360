@@ -30,6 +30,7 @@ const StatButton = ({ onClick, iconSrc, altText, text, ariaLabel, isLast, disabl
     <Button
         disabled={disabled}
         onClick={onClick}
+        variant={"link"}
         className={`flex items-center space-x-1 ${!isLast && "border-r"} border-gray-400 rounded-none`}
         aria-label={ariaLabel}
     >

@@ -24,7 +24,7 @@ const PostsPage = () => {
         <section className="general-container">
             <div className="flex items-center justify-between w-full">
                 <h2 className="w-full text-left h3-bold md:h2-bold">Posts</h2>
-                <Button type="button" onClick={onOpen} >
+                <Button variant="link" type="button" onClick={onOpen} >
                     <img src="/icons/create.svg" alt="add-post" className="size-10" />
                 </Button>
             </div>

@@ -1,5 +1,6 @@
 export enum QUERY_KEYS {
   GET_USERS = "getUsers",
+  GET_TOP_USERS = "getTopUsers",
   GET_USER_BY_ID = "getUserById",
   GET_RECIPES = "getRecipes",
   GET_RECIPE_BY_ID = "getRecipeById",

@@ -86,3 +86,13 @@ export async function updateUser(req: Request, res: Response) {
     return res.status(500).json({ message: "Internal server error" });
   }
 }
+
+export async function getTopUsers(req: Request, res: Response) {
+  try {
+    const topUsers = await User.find().sort({ followers: -1 }).limit(3);
+    return res.status(200).json(topUsers);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}

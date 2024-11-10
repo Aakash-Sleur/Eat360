@@ -16,12 +16,22 @@ async function getUsers() {
 async function getUserById(id: string) {
   try {
     const Response = await axios.get(
-      `${instance.defaults.baseURL}/users/${id}`
+      `${instance.defaults.baseURL}/users/${id}/user`
     );
 
     return Response.data as IUser;
   } catch (error) {
     console.error(`[ERROR_GET_USER_BY_ID]: ${error}`);
+  }
+}
+
+async function getTopUsers() {
+  try {
+    const Response = await axios.get(`${instance.defaults.baseURL}/users/top`);
+
+    return Response.data as IUser[];
+  } catch (error) {
+    console.error(`[ERROR_GET_TOP_USERS]: ${error}`);
   }
 }
 
@@ -118,6 +128,7 @@ async function followUser({
 export {
   getUsers,
   getUserById,
+  getTopUsers,
   getUserFollowersAndFollowing,
   getCurrentUserId,
   updateUser,

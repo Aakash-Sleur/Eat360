@@ -22,7 +22,7 @@ const ShareButton = ({ id, type, children = "", props }: ShareButtonProps) => {
     };
 
     return (
-        <Button className={`${type === "recipes" && "border-r"} border-gray-400 p-0 m-0 capitalize`} onClick={handleShare} {...props}>
+        <Button variant="link" className={`${type === "recipes" && "border-r"} p-0 m-0 capitalize`} onClick={handleShare} {...props}>
             <img
                 src="/icons/share.svg"
                 alt="Share"

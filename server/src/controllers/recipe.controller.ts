@@ -81,23 +81,48 @@ export async function getRecipeById(req: Request, res: Response) {
 }
 
 export async function getSearchRecipes(req: Request, res: Response) {
-  const searchTerm = req.query.term;
-
-  if (!searchTerm) {
-    return res.status(400).json({ message: "Search term is required" });
-  }
+  const { term, tags, isPremium, sortBy } = req.query;
 
   try {
-    const regex = new RegExp(searchTerm.toString(), "i");
+    let query: any = {};
 
-    const recipes = await Recipe.find({
-      $or: [
+    if (term) {
+      const regex = new RegExp(term.toString(), "i");
+      query.$or = [
         { title: regex },
         { ingredients: regex },
         { "instructions.name": regex },
         { tags: regex },
-      ],
-    }).exec();
+      ];
+    }
+
+    if (tags && Array.isArray(tags) && tags.length > 0) {
+      query.tags = { $in: tags };
+    }
+
+    if (isPremium !== undefined) {
+      query.isPremium = isPremium === "true";
+    }
+
+    let sort: any = {};
+    switch (sortBy) {
+      case "date_desc":
+        sort = { createdAt: -1 };
+        break;
+      case "date_asc":
+        sort = { createdAt: 1 };
+        break;
+      case "likes_desc":
+        sort = { likes: -1 };
+        break;
+      case "views_desc":
+        sort = { views: -1 };
+        break;
+      default:
+        sort = { createdAt: -1 };
+    }
+
+    const recipes = await Recipe.find(query).sort(sort).exec();
 
     return res.status(200).json(recipes);
   } catch (error) {
@@ -210,6 +235,11 @@ export async function commentRecipe(req: Request, res: Response) {
 export async function getTopRecipes(req: Request, res: Response) {
   try {
     const recipes = await Recipe.find({ likes: { $gt: 0 } })
+      .populate({
+        path: "createdBy",
+        select: "_id name username profilePicture",
+        model: User,
+      })
       .sort({ likes: -1 })
       .limit(3);
 

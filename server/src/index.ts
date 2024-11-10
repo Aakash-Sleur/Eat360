@@ -11,7 +11,6 @@ import "dotenv/config";
 import router from "./router";
 import { corsOptions, MONGO_URI, mongodbOptions, PORT } from "./config";
 import path from "path";
-import { method } from "lodash";
 
 // app
 const app: Express = express();

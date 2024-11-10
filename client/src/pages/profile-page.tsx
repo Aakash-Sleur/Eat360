@@ -168,11 +168,11 @@ const ProfilePage = () => {
                 <Route path="/posts" element={
                     <ul className="flex flex-col gap-4">
                         {
-                            userInView.posts.length === 0
+                            userInView.posts.length === 0 || !userInView.posts
                                 ? <p>Currently no posts</p>
                                 : userInView.posts.map((post) => (
                                     <li key={post._id} className="w-full">
-                                        <PostCard post={post} />
+                                        <PostCard post={post} userDetails={userInView} />
                                     </li>
                                 ))
                         }

@@ -13,13 +13,13 @@ type GridListProps = {
 const GridList = ({ recipes }: GridListProps) => {
     if (!recipes) return <Loader />
     return (
-        <ul className="grid-container">
+        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {
                 recipes
                     ?.filter(recipe => recipe.isPublic === true)
                     ?.map((recipe) => (
-                        <li key={recipe._id} className="relative min-w-80 h-80">
-                            <Suspense fallback={<Skeleton className="min-w-80 h-80" />} >
+                        <li key={recipe._id} className="relative">
+                            <Suspense fallback={<Skeleton className="h-80" />} >
                                 <RecipeCard recipe={recipe} />
                             </Suspense>
                         </li>

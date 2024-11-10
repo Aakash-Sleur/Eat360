@@ -8,6 +8,7 @@ import {
 import { createUser, loginUser } from "../api/auth";
 import { QUERY_KEYS } from "./querykeys";
 import {
+  FilterOptions,
   ICreatedRecipe,
   IFollowersUpdate,
   INewComment,
@@ -23,6 +24,7 @@ import {
   getUserById,
   getUserFollowersAndFollowing,
   getUsers,
+  getTopUsers,
   updateUser,
 } from "../api/user";
 import {
@@ -76,6 +78,13 @@ export const useGetUsers = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: () => getUsers(),
+  });
+};
+
+export const useGetTopUsers = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS],
+    queryFn: () => getTopUsers(),
   });
 };
 
@@ -144,11 +153,12 @@ export const useUpdateRecipe = () => {
   });
 };
 
-export const useSearchRecipe = (searchTerm: string) => {
+export const useSearchRecipe = (searchTerm: string, filters: FilterOptions) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_SEARCH_RECIPES],
-    queryFn: () => searchRecipe(searchTerm),
-    enabled: !!searchTerm,
+    queryKey: [QUERY_KEYS.GET_SEARCH_RECIPES, searchTerm, filters],
+    queryFn: () => searchRecipe(searchTerm, filters),
+    enabled:
+      !!searchTerm || filters.tags.length > 0 || filters.isPremium !== null,
   });
 };
 
