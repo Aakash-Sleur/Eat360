@@ -1,69 +1,66 @@
 import { useCallback, useState } from "react"
 import { FileWithPath, useDropzone } from "react-dropzone"
 
-import { Button } from "../ui/button";
-import { convertFileToUrl } from "@/lib/utils";
-import CustomImage from "./custom-image";
+import { Button } from "@/components/ui/button"
+import { convertFileToUrl } from "@/lib/utils"
 
 type FileUploadProps = {
-    fieldChange: (files: File[]) => void;
-    mediaUrl: string;
-    setIsFileUploaded: (value: boolean) => void;
+    fieldChange: (files: File[]) => void
+    mediaUrl: string
+    setIsFileUploaded: (value: boolean) => void
 }
 
-const FileUploader = ({ fieldChange, mediaUrl, setIsFileUploaded }: FileUploadProps) => {
-    const [file, setFile] = useState<File[]>([])
+export default function FileUploader({ fieldChange, mediaUrl, setIsFileUploaded }: FileUploadProps) {
     const [fileUrl, setFileUrl] = useState<string>(mediaUrl)
 
-    const onDrop = useCallback(
-        (acceptedFiles: FileWithPath[]) => {
-            setFile(acceptedFiles);
-            fieldChange(acceptedFiles);
-            setFileUrl(convertFileToUrl(acceptedFiles[0]));
-            setIsFileUploaded(true);
-        }, [file]
-    );
+    const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
+        fieldChange(acceptedFiles)
+        setFileUrl(convertFileToUrl(acceptedFiles[0]))
+        setIsFileUploaded(true)
+    }, [fieldChange, setIsFileUploaded])
 
-    const { getRootProps, getInputProps } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
-            "image/*": [".png", ".jpeg", ".jpg"]
-        }
+            'image/*': ['.png', '.jpeg', '.jpg']
+        },
+        maxFiles: 1
     })
 
     return (
-        <div {...getRootProps()} className="flex flex-col border-2 cursor-pointer flex-center bg-slate-200 rounded-xl">
-            <input {...getInputProps()} className="cursor-pointer" />
-            {
-                fileUrl ?
-                    (
-                        <>
-                            <div className="flex justify-center flex-1 w-full p-5 border text-dark-1 lg:p-10">
-                                <CustomImage src={fileUrl} alt="image" className="file_uploader-img" />
-                            </div>
-                            <p className="file_uploader-label">Click or drag photo to replace</p>
-                        </>
-                    ) : (
-                        <div className="file_uploader-box">
-                            <CustomImage
-                                src="/icons/file-upload.svg"
-                                width={96}
-                                height={77}
-                                alt="file upload"
-                            />
-                            <h3 className="mt-6 mb-2 base-medium text-light-2">
-                                Drag photo here
-                            </h3>
-                            <p className="mb-6 text-light-4 small-regular">SVG, PNG, JPG</p>
-
-                            <Button type="button" className="shad-button_dark_4">
-                                Select from computer
-                            </Button>
-                        </div>
-                    )
-            }
+        <div
+            {...getRootProps()}
+            className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-colors ${isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300 bg-gray-50'
+                }`}
+        >
+            <input {...getInputProps()} className="sr-only" aria-label="Upload file" />
+            {fileUrl ? (
+                <div className="relative w-full aspect-video">
+                    <img
+                        src={fileUrl}
+                        alt="Uploaded file"
+                        className="object-cover rounded-lg"
+                    />
+                    <p className="mt-2 text-sm text-gray-500">Click or drag a new photo to replace</p>
+                </div>
+            ) : (
+                <div className="text-center">
+                    <img
+                        src="/icons/file-upload.svg"
+                        width={96}
+                        height={77}
+                        alt=""
+                        className="mx-auto mb-4"
+                    />
+                    <h3 className="mb-2 text-lg font-medium text-gray-900">
+                        Drag photo here
+                    </h3>
+                    <p className="mb-4 text-sm text-gray-500">SVG, PNG, JPG (max. 800x400px)</p>
+                    <Button type="button" variant="outline">
+                        Select from computer
+                    </Button>
+                </div>
+            )}
         </div>
     )
 }
-
-export default FileUploader

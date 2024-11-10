@@ -161,14 +161,14 @@ export default function ExplorePage() {
                             Filters & Sort
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="right" className="bg-white shadow-lg backdrop-blur-lg">
+                    <SheetContent side="right" className="overflow-y-scroll bg-white shadow-lg backdrop-blur-lg">
                         <SheetHeader>
                             <SheetTitle>Recipe Filters</SheetTitle>
                             <SheetDescription>
                                 Adjust the filters to find your perfect recipe.
                             </SheetDescription>
                         </SheetHeader>
-                        <div className="mt-6">
+                        <div className="mt-6 overflow-y-scroll custom-scrollbar">
                             <FilterSection filters={filters} setFilters={setFilters} tags={uniqueTags} />
                         </div>
                     </SheetContent>
