@@ -2,7 +2,7 @@ import { RefAttributes } from "react";
 
 import { Button, ButtonProps } from "../ui/button";
 import { useOrigin } from "@/hooks/common-hooks/hooks";
-import { useShareModal } from "@/hooks/modal-hooks";
+// import { useShareModal } from "@/hooks/modal-hooks";
 
 type ShareButtonProps = {
     id: string;
@@ -13,12 +13,20 @@ type ShareButtonProps = {
 
 const ShareButton = ({ id, type, children = "", props }: ShareButtonProps) => {
     const origin = useOrigin();
-    const { onOpen, updateModalData } = useShareModal();
+    // const { onOpen, updateModalData } = useShareModal();
 
     const handleShare = () => {
-        const link = `${origin}/${type}/${id}`;
-        onOpen();
-        updateModalData({ link: link });
+        navigator.share({
+            title: "Check this out!",
+            text: "Check out this awesome content!",
+            url: `${origin}/${type === "recipes" ? "recipe" : "post"}/${id}`,
+        })
+            .then(() => {
+                console.log("Content shared successfully!");
+            })
+            .catch((error) => {
+                console.error("Error sharing content:", error);
+            })
     };
 
     return (

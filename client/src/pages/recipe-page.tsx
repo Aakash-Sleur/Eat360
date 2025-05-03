@@ -143,7 +143,7 @@ export default function RecipePage() {
                     <Button
                         variant="link"
                         onClick={handleCheckout}
-                        className="text-lg bg-orange-600 hover:bg-orange-700"
+                        className="text-lg text-white bg-orange-600 hover:bg-orange-700"
                     >
                         <DollarSign className="w-4 h-4 mr-2" />
                         Purchase Recipe
