@@ -17,7 +17,6 @@ import Loader from "@/components/loader";
 import { SignInFormValidation } from "@/lib/validations";
 import { useUserContext } from "@/context/auth-store";
 import { setUserCredentials } from "@/lib/utils";
-import { IUser } from "@/lib/types";
 import { useLoginUser } from "@/lib/react-query/queries-and-mutations";
 import { useToast } from "@/components/ui/use-toast";
 
