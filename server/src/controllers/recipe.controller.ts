@@ -5,6 +5,8 @@ import Recipe from "../models/recipe.model";
 import User from "../models/user.model";
 import Comment from "../models/comment.model";
 
+import { scheduleOneTimeRecipePublish } from "../config/aws";
+
 export async function createRecipe(req: Request, res: Response) {
   try {
     const { title, ingredients, instructions, createdBy, tags, ...rest } =
@@ -31,6 +33,12 @@ export async function createRecipe(req: Request, res: Response) {
       $push: { recipes: createdRecipe._id },
     });
 
+    rest?.scheduledAt &&
+      (await scheduleOneTimeRecipePublish(
+        createdRecipe._id.toString(),
+        rest.scheduledAt
+      ));
+
     res.status(201).json(createdRecipe);
   } catch (error) {
     console.error(error.message);
@@ -44,7 +52,7 @@ export async function getAllRecipes(req: Request, res: Response) {
     const pageSize = parseInt(req.query.pageSize?.toString()) || 10;
     const skipAmount = (pageNumber - 1) * pageSize;
 
-    const recipes = await Recipe.find()
+    const recipes = await Recipe.find({ isPublic: true, published: true })
       .sort({ createdAt: -1 })
       .skip(skipAmount)
       .limit(pageSize);
@@ -53,6 +61,17 @@ export async function getAllRecipes(req: Request, res: Response) {
   } catch (error) {
     console.error(error.message);
     throw new Error(`Failed to get all recipes: ${error.message}`);
+  }
+}
+
+export async function getUserRecipes(req: Request, res: Response) {
+  try {
+    const recipes = await Recipe.find({ createdBy: req.params.id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -85,6 +104,9 @@ export async function getSearchRecipes(req: Request, res: Response) {
 
   try {
     let query: any = {};
+
+    query.isPublic = true;
+    query.published = true;
 
     if (term) {
       const regex = new RegExp(term.toString(), "i");
@@ -234,7 +256,11 @@ export async function commentRecipe(req: Request, res: Response) {
 
 export async function getTopRecipes(req: Request, res: Response) {
   try {
-    const recipes = await Recipe.find({ likes: { $gt: 0 } })
+    const recipes = await Recipe.find({
+      likes: { $gt: 0 },
+      isPublic: true,
+      published: true
+    })
       .populate({
         path: "createdBy",
         select: "_id name username profilePicture",

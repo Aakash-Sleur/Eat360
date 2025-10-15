@@ -80,6 +80,14 @@ const recipeSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Comment",
   },
+  published: {
+    type: Boolean,
+    default: true,
+  },
+  scheduledAt: {
+    type: Date,
+    default: null,
+  },
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

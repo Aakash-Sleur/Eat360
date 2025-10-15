@@ -8,9 +8,8 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     // checking if all the fields are filled
     if (!email || !password) {
-      return res.sendStatus(400);
+      return res.status(400).json({ error: "All values are required"});
     }
-
     // fetching the user of the respective email address
     const user = await getUserByEmail(email).select(
       "+authentication.salt +authentication.password"
@@ -40,7 +39,7 @@ export const login = async (req: Request, res: Response) => {
       path: "/",
     });
 
-    return res.status(200).json(user).end();
+    return res.status(200).json({user, message: "logged in succuessfully"}).end();
   } catch (error) {
     console.error(error);
     return res.status(400);

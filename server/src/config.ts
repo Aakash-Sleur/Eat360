@@ -2,6 +2,8 @@ export const MONGO_URI = process.env.MONGODB_URI;
 export const PORT = process.env.PORT || 8080;
 export const client = process.env.CLIENT_URL;
 
+
+console.log(client)
 export const mongodbOptions = {
   serverSelectionTimeoutMS: 5000,
 };

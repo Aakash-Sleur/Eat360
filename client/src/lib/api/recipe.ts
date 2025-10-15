@@ -26,6 +26,16 @@ async function getRecipes(
   }
 }
 
+async function getUserRecipes(id: string): Promise<IRecipe[]| undefined> {
+  try {
+    const response = await axios.get(`${instance.defaults.baseURL}/recipes/user/${id}`);
+    return response.data as IRecipe[];
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 async function getRecipeById(id: string): Promise<IRecipe | undefined> {
   try {
     const response = await axios.get(
@@ -137,4 +147,5 @@ export {
   deleteRecipe,
   searchRecipe,
   createRecipeComment,
+  getUserRecipes
 };

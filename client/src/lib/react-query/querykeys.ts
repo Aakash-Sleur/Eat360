@@ -11,4 +11,5 @@ export enum QUERY_KEYS {
   GET_FOLLOWERS_AND_FOLLOWING = "getFollowersAndFollowing",
   GET_SEARCH_RECIPES = "getSearchRecipe",
   GET_TOP_RECIPES = "getTopRecipes",
+  GET_USER_RECIPES = "getUserRecipes",
 }

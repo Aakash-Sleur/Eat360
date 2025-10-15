@@ -102,6 +102,8 @@ export type IRecipe = {
   price: number;
   boughtBy: string[];
   comments: IRecipeComment[];
+  scheduledAt?: Date | null;
+  published: boolean;
 };
 
 export type ICreatedRecipe = {

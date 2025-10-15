@@ -36,6 +36,8 @@ const RecipeValidation = z.object({
   isPublic: z.boolean(),
   isPremium: z.boolean(),
   price: z.string(),
+  published: z.boolean().optional(),
+  scheduledAt: z.string().optional(),
 });
 
 const CommentValidation = z.object({

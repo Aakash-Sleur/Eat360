@@ -74,7 +74,7 @@ async function getCurrentUserId() {
 async function updateUser(user: IUpdateProfile) {
   try {
     const updateUser = await axios.put<IUser>(
-      `${instance.defaults.baseURL}/users/user/${user.id}`,
+      `${instance.defaults.baseURL}/users/${user.id}`,
       {
         ...user,
       }

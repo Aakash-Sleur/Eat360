@@ -9,6 +9,7 @@ import {
   getRecipeById,
   getSearchRecipes,
   getTopRecipes,
+  getUserRecipes,
   updateRecipe,
 } from "../controllers/recipe.controller";
 
@@ -18,11 +19,12 @@ export default (router: Router) => {
     .get("/recipes/search", getSearchRecipes)
     .get("/recipes/top", getTopRecipes)
     .post("/recipes", createRecipe)
+    .get("/recipes/user/:id", getUserRecipes)
     .get("/recipes/:id", getRecipeById)
     .put("/recipes/:id", updateRecipe)
     .delete("/recipes/:id", deleteRecipe)
     .post("/recipes/:id/comments", commentRecipe)
-    .delete("/recipes/:id/comments", deleteComment);
+    .delete("/recipes/:id/comments", deleteComment)
 
   return router;
 };

@@ -34,6 +34,7 @@ import {
   getRecipeById,
   getRecipes,
   getTopRecipes,
+  getUserRecipes,
   searchRecipe,
   updateRecipe,
 } from "../api/recipe";
@@ -190,6 +191,13 @@ export const useGetRecipes = (pageSize: number = 10) => {
       return pages.length + 1;
     },
     initialPageParam: 1,
+  });
+};
+
+export const useGetUserRecipes = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_RECIPES],
+    queryFn: () => getUserRecipes(id),
   });
 };
 

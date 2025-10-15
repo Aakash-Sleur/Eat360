@@ -1,5 +1,3 @@
-'use client'
-
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Heart, MessageCircle } from "lucide-react"

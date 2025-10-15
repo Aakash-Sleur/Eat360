@@ -1,13 +1,14 @@
+import { IRecipe } from "@/lib/types"
 import ProfileRecipeCard from "./profile-recipe-card"
 
 const UserRecipeGrid = ({ recipes }: {
-    recipes: string[]
+    recipes: IRecipe[]
 }) => {
     return (
         <ul className="grid-container">
             {recipes
-                .map((recipe: string) => (
-                    <ProfileRecipeCard recipeId={recipe} key={recipe} />
+                .map((recipe) => (
+                    <ProfileRecipeCard recipe={recipe} key={recipe._id} />
                 ))}
         </ul>
     )

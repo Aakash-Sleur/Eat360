@@ -9,8 +9,9 @@ import "dotenv/config";
 
 // Internal modules
 import router from "./router";
-import { corsOptions, MONGO_URI, mongodbOptions, PORT } from "./config";
+import { client, corsOptions, MONGO_URI, mongodbOptions, PORT } from "./config";
 import path from "path";
+import { addPublish } from "./seed";
 
 // app
 const app: Express = express();
@@ -47,6 +48,7 @@ app.get("/", (req, res) => {
 });
 
 const server = http.createServer(app);
+
 
 // mongodb connection
 mongoose
