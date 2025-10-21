@@ -11,7 +11,7 @@ import "dotenv/config";
 import router from "./router";
 import { client, corsOptions, MONGO_URI, mongodbOptions, PORT } from "./config";
 import path from "path";
-import { addPublish } from "./seed";
+import setDefaultPasswords from "./seed";
 
 // app
 const app: Express = express();
@@ -19,6 +19,7 @@ const app: Express = express();
 // middlewares
 app.use(
   cors({
+    origin: "*",
     credentials: true,
   })
 );
@@ -49,13 +50,13 @@ app.get("/", (req, res) => {
 
 const server = http.createServer(app);
 
-
 // mongodb connection
 mongoose
   .connect(MONGO_URI!, mongodbOptions)
   .then(() => console.log("Connected to MongoDB🤝"))
   .catch((err) => console.error("Error while connecting to MongoDB", err));
 
+// setDefaultPasswords();
 // routes
 app.use("/", router());
 

@@ -16,16 +16,8 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  collections: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Collection",
-    default: [],
-  },
-  authentication: {
-    password: { type: String, required: true, select: false },
-    salt: { type: String, select: false },
-    sessionToken: { type: String, select: false },
-  },
+  password: { type: String, required: true, select: false },
+
   bio: {
     type: String,
     required: false,
@@ -52,19 +44,12 @@ const UserSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User",
   },
-  badges: { type: [mongoose.Schema.Types.ObjectId], ref: "Badge" },
   posts: { type: [mongoose.Schema.Types.ObjectId], ref: "Post" },
   savedRecipes: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Recipe",
     default: [],
   },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-  },
-  permissions: [{ type: String }],
 });
 
 const User = mongoose.model("User", UserSchema);

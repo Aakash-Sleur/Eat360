@@ -1,9 +1,15 @@
 import React from 'react';
 
 import RecipeForm from '@/components/shared/recipe-form';
+import { useSearchParams } from 'react-router-dom';
 
 const CreateRecipePage: React.FC = () => {
-  return (
+    const [searchParams] = useSearchParams()
+    const forkRecipe = searchParams.get('recipeId') || "";
+
+    console.log(forkRecipe)
+    
+    return (
     <div className="flex flex-1">
       <div className="common-container">
         <div className="justify-start w-full gap-3 mx-auto md:max-w-5xl flex-start">
