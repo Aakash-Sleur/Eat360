@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { DollarSign, Users, Lock } from 'lucide-react'
@@ -57,7 +56,7 @@ export default function RecipePage() {
 
     const handleCheckout = async () => {
         try {
-            const response = await axios.post(`${instance.defaults.baseURL}/create-payment-intent`, {
+            const response = await instance.post(`/create-payment-intent`, {
                 name: recipe.title,
                 description: recipe.description,
                 recipe_price: recipe.price,

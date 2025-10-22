@@ -1,5 +1,4 @@
 // PaymentSuccess.tsx
-import axios from 'axios';
 import React, { useEffect } from 'react';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -17,7 +16,7 @@ const PaymentSuccess: React.FC = () => {
 
             if (sessionId && recipeId) {
                 try {
-                    await axios.get(`${instance.defaults.baseURL}/session/${sessionId}`);
+                    await instance.get(`/session/${sessionId}`);
                     setTimeout(() => {
                         navigate(`/recipes/${recipeId}?status=success`);
                     }, 3000);

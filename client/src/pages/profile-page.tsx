@@ -6,6 +6,16 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom";
+import {
+  User,
+  Users,
+  ChefHat,
+  BookOpen,
+  Bookmark,
+  Edit,
+  MapPin,
+  Calendar,
+} from "lucide-react";
 
 import FollowButton from "@/components/buttons/follow-button";
 import Loader from "@/components/loader";
@@ -13,6 +23,10 @@ import GridList from "@/components/shared/grid-recipelist";
 import PostCard from "@/components/shared/post-card";
 import UserRecipeGrid from "@/components/shared/user-recipe-grid";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useUserContext } from "@/context/auth-store";
 import {
   useGetFollowersAndFollowing,
@@ -20,25 +34,62 @@ import {
   useGetUserRecipes,
 } from "@/lib/react-query/queries-and-mutations";
 import { useSocialNexusModal } from "@/hooks/modal-hooks";
-import CustomImage from "@/components/shared/custom-image";
+import { cn } from "@/lib/utils";
 
 interface StatBlockProps {
   value: string | number;
   label: string;
-  onClickAction?: React.MouseEventHandler<HTMLButtonElement>;
+  icon: React.ReactNode;
+  onClick?: () => void;
+  isClickable?: boolean;
 }
 
-const StatBlock = ({ value, label, onClickAction }: StatBlockProps) => (
-  <Button
+const StatBlock = ({
+  value,
+  label,
+  icon,
+  onClick,
+  isClickable = true,
+}: StatBlockProps) => (
+  <button
     type="button"
-    className="gap-2 cursor-pointer flex-center"
-    onClick={onClickAction}
+    onClick={onClick}
+    disabled={!isClickable}
+    className={cn(
+      "flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-gray-200 transition-all min-w-[100px]",
+      isClickable &&
+        "hover:shadow-md hover:border-green-300 cursor-pointer active:scale-95",
+      !isClickable && "cursor-default"
+    )}
   >
-    <p className="small-semibold lg:body-bold text-dark-2">{value}</p>
-    <p className="small-medium lg:body-medium text-dark-2 hover:text-gray-400">
-      {label}
-    </p>
-  </Button>
+    <div className="flex items-center gap-2 text-gray-600">
+      {icon}
+    </div>
+    <div className="flex flex-col items-center">
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-sm text-gray-600 font-medium">{label}</p>
+    </div>
+  </button>
+);
+
+const EmptyState = ({ 
+  icon, 
+  title, 
+  description 
+}: { 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string;
+}) => (
+  <Card className="w-full mt-8">
+    <CardContent className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="rounded-full bg-gray-100 p-6 mb-4">
+        {icon}
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+      <p className="text-gray-600 text-center max-w-md">{description}</p>
+    </CardContent>
+  </Card>
 );
 
 const ProfilePage = () => {
@@ -47,13 +98,19 @@ const ProfilePage = () => {
   const { data: userInView } = useGetUserById(userId || "");
   const { onOpen, updateModalData } = useSocialNexusModal();
   const { data: socialDetails } = useGetFollowersAndFollowing(userId || "");
-  const { data: recipes, isLoading: isRecipesLoading } = useGetUserRecipes(userId || "");
+  const { data: recipes, isLoading: isRecipesLoading } = useGetUserRecipes(
+    userId || ""
+  );
 
   const { pathname } = useLocation();
+  const isOwnProfile = userInView?._id === currentUser?._id;
 
-  if (!userInView || isRecipesLoading) {
-    return <Loader />;
-  }
+  const getCurrentTab = () => {
+    if (pathname === `/profile/${userId}`) return "recipes";
+    if (pathname === `/profile/${userId}/posts`) return "posts";
+    if (pathname === `/profile/${userId}/saved`) return "saved";
+    return "recipes";
+  };
 
   const onFollowClick = (type: "following" | "followers") => {
     const data =
@@ -64,162 +121,241 @@ const ProfilePage = () => {
     onOpen(type);
   };
 
+  if (!userInView || isRecipesLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <div className="profile-container">
-      <div className="profile-inner_container">
-        <div className="flex flex-col flex-1 p-4 xl:flex-row max-xl:items-center gap-7 bg-light-2/50">
-          <CustomImage
-            src={userInView.profilePicture || "/icons/profile-placeholder.svg"}
-            alt="profile-picture"
-            className="rounded-full size-28 lg:size-36"
-          />
-          <div className="flex flex-col justify-between flex-1 md:mt-2">
-            <div className="flex flex-col justify-center w-full">
-              <h1 className="w-full text-center xl:text-left h3-bold md:h1-semibold">
-                {userInView.name}
-              </h1>
-              <p className="text-center small-regular md:body-medium text-dark-1 xl:text-left">
-                @{userInView.username}
-              </p>
-            </div>
+    <div className="bg-gradient-to-b from-gray-50 to-white">
+      {/* Cover Image Section */}
+<div className="w-full h-48 bg-gradient-to-r from-emerald-400 via-lime-300 to-orange-200 relative">
+        <div className="absolute inset-0 bg-black/10"></div>
+      </div>
 
-            <div className="z-20 flex flex-wrap items-center justify-center gap-5 mt-10 xl:justify-start">
-              <StatBlock
-                value={userInView.followers?.length || 0}
-                label="Followers"
-                onClickAction={() => onFollowClick("followers")}
-              />
-              <StatBlock
-                value={userInView.following?.length || 0}
-                label="Following"
-                onClickAction={() => onFollowClick("following")}
-              />
-            </div>
+      {/* Profile Content */}
+      <div className="max-w-6xl mx-auto z-[99] px-4 -mt-1 pb-8">
+        {/* Profile Header Card */}
+        <Card className="shadow-xl border-0 overflow-hidden">
+          <CardContent className="p-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              {/* Avatar */}
+              <div className="relative flex-shrink-0 -mt-4 md:-mt-4">
+                <Avatar className="h-32 w-32 md:h-40 md:w-40 ring-4 ring-white shadow-xl">
+                  <AvatarImage
+                    src={
+                      userInView.profilePicture ||
+                      "/icons/profile-placeholder.svg"
+                    }
+                    alt={userInView.name}
+                  />
+                  <AvatarFallback className="bg-gradient-to-br from-green-400 to-emerald-600 text-white text-4xl font-bold">
+                    {userInView.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                {isOwnProfile && (
+                  <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-green-600 hover:bg-green-700">
+                    You
+                  </Badge>
+                )}
+              </div>
 
-            <p className="max-w-screen-sm text-center small-medium md:base-medium xl:text-left my-7">
-              {userInView.bio}
-            </p>
-          </div>
-          <div className="flex justify-center gap-4 mb-7">
-            <div
-              className={`${
-                userInView._id !== currentUser?._id ? "hidden" : ""
-              }`}
+              {/* User Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+                  <div>
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">
+                      {userInView.name}
+                    </h1>
+                    <p className="text-gray-600 text-lg mb-3">
+                      @{userInView.username}
+                    </p>
+                    {userInView.bio && (
+                      <p className="text-gray-700 max-w-2xl leading-relaxed">
+                        {userInView.bio}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="flex-shrink-0">
+                    {isOwnProfile ? (
+                      <Button
+                        asChild
+                        size="lg"
+                        className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md"
+                      >
+                        <Link to={`/update-profile/${userInView._id}`}>
+                          <Edit className="mr-2 h-4 w-4" />
+                          Edit Profile
+                        </Link>
+                      </Button>
+                    ) : (
+                      <FollowButton userInView={userInView} />
+                    )}
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <StatBlock
+                    value={userInView.recipes?.length || 0}
+                    label="Recipes"
+                    icon={<ChefHat className="h-5 w-5" />}
+                    isClickable={false}
+                  />
+                  <StatBlock
+                    value={userInView.followers?.length || 0}
+                    label="Followers"
+                    icon={<Users className="h-5 w-5" />}
+                    onClick={() => onFollowClick("followers")}
+                  />
+                  <StatBlock
+                    value={userInView.following?.length || 0}
+                    label="Following"
+                    icon={<User className="h-5 w-5" />}
+                    onClick={() => onFollowClick("following")}
+                  />
+                  <StatBlock
+                    value={userInView.posts?.length || 0}
+                    label="Posts"
+                    icon={<BookOpen className="h-5 w-5" />}
+                    isClickable={false}
+                  />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Tabs Section */}
+        <Tabs defaultValue={getCurrentTab()} className="mt-6">
+          <TabsList className="w-full justify-start bg-white border border-gray-200 p-1 h-auto rounded-xl shadow-sm">
+            <TabsTrigger
+              value="recipes"
+              asChild
+              className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 rounded-lg px-6 py-3"
             >
               <Link
-                to={`/update-profile/${userInView._id}`}
-                className={`h-12 bg-[#fa8117]/90 px-5 text-light-1 flex-center gap-2 rounded-lg ${
-                  userInView._id !== currentUser._id && "hidden"
-                }`}
+                to={`/profile/${userId}`}
+                className="flex items-center gap-2"
               >
-                <CustomImage
-                  src={"/icons/edit.svg"}
-                  alt="edit"
-                  width={20}
-                  height={20}
-                  className="invert-white"
-                />
-                <p className="flex text-white whitespace-nowrap small-medium">
-                  Edit Profile
-                </p>
+                <ChefHat className="h-4 w-4" />
+                <span className="font-semibold">Recipes</span>
+                <Badge variant="secondary" className="ml-1">
+                  {userInView.recipes?.length || 0}
+                </Badge>
               </Link>
-            </div>
-            <div
-              className={`${
-                userInView._id === currentUser?._id ? "hidden" : ""
-              }`}
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="posts"
+              asChild
+              className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 rounded-lg px-6 py-3"
             >
-              <FollowButton userInView={userInView} />
-            </div>
+              <Link
+                to={`/profile/${userId}/posts`}
+                className="flex items-center gap-2"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span className="font-semibold">Posts</span>
+                <Badge variant="secondary" className="ml-1">
+                  {userInView.posts?.length || 0}
+                </Badge>
+              </Link>
+            </TabsTrigger>
+
+            {isOwnProfile && (
+              <TabsTrigger
+                value="saved"
+                asChild
+                className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 rounded-lg px-6 py-3"
+              >
+                <Link
+                  to={`/profile/${userId}/saved`}
+                  className="flex items-center gap-2"
+                >
+                  <Bookmark className="h-4 w-4" />
+                  <span className="font-semibold">Saved</span>
+                  <Badge variant="secondary" className="ml-1">
+                    {userInView.savedRecipes?.length || 0}
+                  </Badge>
+                </Link>
+              </TabsTrigger>
+            )}
+          </TabsList>
+
+          {/* Tab Content */}
+          <div className="mt-6">
+            <Routes>
+              <Route
+                index
+                element={
+                  userInView.recipes.length === 0 ? (
+                    <EmptyState
+                      icon={<ChefHat className="h-12 w-12 text-gray-400" />}
+                      title="No recipes yet"
+                      description={
+                        isOwnProfile
+                          ? "Start sharing your culinary creations with the world!"
+                          : `${userInView.name} hasn't shared any recipes yet.`
+                      }
+                    />
+                  ) : (
+                    <UserRecipeGrid
+                      recipes={Array.isArray(recipes) ? recipes : []}
+                    />
+                  )
+                }
+              />
+              <Route
+                path="/posts"
+                element={
+                  userInView.posts.length === 0 || !userInView.posts ? (
+                    <EmptyState
+                      icon={<BookOpen className="h-12 w-12 text-gray-400" />}
+                      title="No posts yet"
+                      description={
+                        isOwnProfile
+                          ? "Share your thoughts and cooking experiences!"
+                          : `${userInView.name} hasn't posted anything yet.`
+                      }
+                    />
+                  ) : (
+                    <div className="space-y-4">
+                      {userInView.posts.map((post) => (
+                        <PostCard
+                          key={post._id}
+                          post={post}
+                          userDetails={userInView}
+                        />
+                      ))}
+                    </div>
+                  )
+                }
+              />
+              <Route
+                path="/saved"
+                element={
+                  userInView.savedRecipes.length !== 0 ? (
+                    <GridList recipes={userInView.savedRecipes} />
+                  ) : (
+                    <EmptyState
+                      icon={<Bookmark className="h-12 w-12 text-gray-400" />}
+                      title="No saved recipes"
+                      description="Recipes you save will appear here for easy access."
+                    />
+                  )
+                }
+              />
+            </Routes>
           </div>
-        </div>
-      </div>
-      <div className="flex justify-center w-full max-w-6xl">
-        <Link
-          to={`/profile/${userId}`}
-          className={`profile-tab rounded-l-lg ${
-            pathname === `/profile/${userId}` && "!bg-light-3 text-light-1"
-          }`}
-        >
-          <CustomImage
-            src={"/icons/posts.svg"}
-            alt="posts"
-            width={20}
-            height={20}
-            className={`${pathname === `/profile/${userId}` && "invert-white"}`}
-          />
-          Recipe
-        </Link>
-        <Link
-          to={`/profile/${userId}/posts`}
-          className={`profile-tab rounded-r-lg ${
-            pathname === `/profile/${userId}/posts` && "!bg-light-3"
-          }`}
-        >
-          <CustomImage
-            src={"/icons/like.svg"}
-            alt="like"
-            width={20}
-            height={20}
-          />
-          Posts
-        </Link>
-        {userInView._id === currentUser?._id && (
-          <Link
-            to={`/profile/${userId}/saved`}
-            className={`profile-tab rounded-r-lg ${
-              pathname === `/profile/${userId}/saved` && "!bg-light-3"
-            }`}
-          >
-            <CustomImage
-              src={"/icons/save.svg"}
-              alt="like"
-              width={20}
-              height={20}
-            />
-            Saved
-          </Link>
-        )}
+        </Tabs>
       </div>
 
-      <Routes>
-        <Route
-          index
-          element={
-            userInView.recipes.length === 0 ? (
-              <p>Currently no recipes</p>
-            ) : (
-              <UserRecipeGrid recipes={Array.isArray(recipes) ? recipes : []} />
-            )
-          }
-        />
-        <Route
-          path="/posts"
-          element={
-            <ul className="flex flex-col gap-4">
-              {userInView.posts.length === 0 || !userInView.posts ? (
-                <p>Currently no posts</p>
-              ) : (
-                userInView.posts.map((post) => (
-                  <li key={post._id} className="w-full">
-                    <PostCard post={post} userDetails={userInView} />
-                  </li>
-                ))
-              )}
-            </ul>
-          }
-        />
-        <Route
-          path="/saved"
-          element={
-            userInView.savedRecipes.length !== 0 ? (
-              <GridList recipes={userInView.savedRecipes} />
-            ) : (
-              <p>Currently no saved Recipes</p>
-            )
-          }
-        />
-      </Routes>
       <Outlet />
     </div>
   );

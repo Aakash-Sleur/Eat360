@@ -73,10 +73,15 @@ const ProfileRecipeCard = React.memo(({ recipe }: ProfileRecipeCardProps) => {
   const { isDeleting, deleteRecipe } = useRecipe(recipe._id);
 
   if (!recipe) return <Loader />;
-  if (recipe.createdBy !== userId) return null;
+
 
   const handleEdit = () => navigate(`/update-recipe/${recipe._id}`);
   const handleDelete = () => deleteRecipe(recipe._id);
+  const handleRedirect = () => {
+    if (recipe.published || recipe.createdBy === userId) {
+      navigate(`/recipes/${recipe._id}`);
+    }
+  }
 
   const isOwner = recipe.createdBy === userId;
 
@@ -136,8 +141,8 @@ const ProfileRecipeCard = React.memo(({ recipe }: ProfileRecipeCardProps) => {
       )}
 
       {/* Info overlay */}
-      <Link
-        to={`/recipes/${recipe._id}`}
+      <div
+        onClick={handleRedirect}
         className={cn(
           "absolute inset-x-0 bottom-0 z-10 block rounded-b-xl p-3 transition",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -158,7 +163,7 @@ const ProfileRecipeCard = React.memo(({ recipe }: ProfileRecipeCardProps) => {
           </div>
         </div>
         <span className="sr-only">View recipe details</span>
-      </Link>
+      </div>
     </li>
   );
 });

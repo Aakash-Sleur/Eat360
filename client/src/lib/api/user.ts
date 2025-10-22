@@ -1,11 +1,9 @@
-import axios from "axios";
-
 import { instance } from "@/lib/config";
 import { IFollowersUpdate, IUpdateProfile, IUser } from "../types";
 
 async function getUsers() {
   try {
-    const response = await axios.get(`${instance.defaults.baseURL}/users`);
+    const response = await instance.get(`/users`);
 
     return response.data;
   } catch (error) {
@@ -15,8 +13,8 @@ async function getUsers() {
 
 async function getUserById(id: string) {
   try {
-    const Response = await axios.get(
-      `${instance.defaults.baseURL}/users/${id}/user`
+    const Response = await instance.get(
+      `/users/${id}/user`
     );
 
     return Response.data as IUser;
@@ -25,9 +23,24 @@ async function getUserById(id: string) {
   }
 }
 
+
+async function getMe() {
+  try {
+    console.log(localStorage.getItem(""))
+    const AUTH_URL = import.meta.env.VITE_BASE_AUTH_URL || "";
+    const Response = await instance.get(
+      `${AUTH_URL}/auth/me`
+    );
+
+    return Response.data.user as IUser;
+  } catch (error) {
+    console.error(`[ERROR_GET_USER_BY_ID]: ${error}`);
+  }
+}
+
 async function getTopUsers() {
   try {
-    const Response = await axios.get(`${instance.defaults.baseURL}/users/top`);
+    const Response = await instance.get(`/users/top`);
 
     return Response.data as IUser[];
   } catch (error) {
@@ -37,8 +50,8 @@ async function getTopUsers() {
 
 async function getUserFollowersAndFollowing(id: string) {
   try {
-    const Response = await axios.get(
-      `${instance.defaults.baseURL}/users/${id}/followers-following`
+    const Response = await instance.get(
+      `/users/${id}/followers-following`
     );
     return Response.data as {
       followers: IUser[];
@@ -73,8 +86,8 @@ async function getCurrentUserId() {
 
 async function updateUser(user: IUpdateProfile) {
   try {
-    const updateUser = await axios.put<IUser>(
-      `${instance.defaults.baseURL}/users/${user.id}`,
+    const updateUser = await instance.put<IUser>(
+      `/users/${user.id}`,
       {
         ...user,
       }
@@ -97,8 +110,8 @@ async function followUser({
   followingList,
 }: IFollowersUpdate) {
   try {
-    const updatedUser = await axios.put<IUser>(
-      `${instance.defaults.baseURL}/users/user/${currentUserId}`,
+    const updatedUser = await instance.put<IUser>(
+      `/users/user/${currentUserId}`,
       {
         following: followingList,
       }
@@ -108,8 +121,8 @@ async function followUser({
       throw new Error("Failed to update Current User");
     }
 
-    const updatedOtherUser = await axios.put<IUser>(
-      `${instance.defaults.baseURL}/users/user/${otherUserId}`,
+    const updatedOtherUser = await instance.put<IUser>(
+      `/users/user/${otherUserId}`,
       {
         followers: followersList,
       }
@@ -129,6 +142,7 @@ export {
   getUsers,
   getUserById,
   getTopUsers,
+  getMe, 
   getUserFollowersAndFollowing,
   getCurrentUserId,
   updateUser,

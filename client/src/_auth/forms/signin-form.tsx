@@ -38,7 +38,7 @@ const SignInForm = () => {
   async function onSubmit(values: z.infer<typeof SignInFormValidation>) {
     const newUser = await loginUser(values);
     if (!newUser) return toast({ title: "Sign in failed. Please try again." });
-    console.log(newUser.user);
+    console.log(newUser);
     setUserCredentials(newUser.user);
     setUser({ ...newUser.user });
 

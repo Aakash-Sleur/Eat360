@@ -11,18 +11,19 @@ import {
   updatePost,
   updatePostComment,
 } from "../controllers/post.controller";
+import { requireAuth } from "../middleware/require-auth";
 
 export default (router: Router) => {
   router
-    .post("/posts", createPost)
-    .get("/posts", getAllPosts)
-    .get("/posts/:id", getPostById)
-    .put("/posts/:id", updatePost)
-    .delete("/posts/:id", deletePost)
-    .get("/posts/:id/comments", getPostComments)
-    .post("/posts/:id/comments", commentPost)
-    .put("/posts/:id/comments", updatePostComment)
-    .delete("/posts/:id/comments", deleteComment);
+    .post("/posts", requireAuth, createPost)
+    .get("/posts", requireAuth, getAllPosts)
+    .get("/posts/:id", requireAuth, getPostById)
+    .put("/posts/:id", requireAuth, updatePost)
+    .delete("/posts/:id", requireAuth, deletePost)
+    .get("/posts/:id/comments", requireAuth, getPostComments)
+    .post("/posts/:id/comments", requireAuth, commentPost)
+    .put("/posts/:id/comments", requireAuth, updatePostComment)
+    .delete("/posts/:id/comments", requireAuth, deleteComment);
 
   return router;
 };

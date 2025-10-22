@@ -1,4 +1,3 @@
-import axios from "axios";
 
 import { instance } from "../config";
 import {
@@ -14,7 +13,7 @@ async function getRecipes(
   pageSize: number
 ): Promise<IRecipe[] | undefined> {
   try {
-    const response = await axios.get(`${instance.defaults.baseURL}/recipes`, {
+    const response = await instance.get(`/recipes`, {
       params: {
         pageNumber,
         pageSize,
@@ -28,7 +27,7 @@ async function getRecipes(
 
 async function getUserRecipes(id: string): Promise<IRecipe[]| undefined> {
   try {
-    const response = await axios.get(`${instance.defaults.baseURL}/recipes/user/${id}`);
+    const response = await instance.get(`/recipes/user/${id}`);
     return response.data as IRecipe[];
   } catch (error) {
     console.error(error);
@@ -38,8 +37,8 @@ async function getUserRecipes(id: string): Promise<IRecipe[]| undefined> {
 
 async function getRecipeById(id: string): Promise<IRecipe | undefined> {
   try {
-    const response = await axios.get(
-      `${instance.defaults.baseURL}/recipes/${id}`
+    const response = await instance.get(
+      `/recipes/${id}`
     );
     return response.data as IRecipe;
   } catch (error) {
@@ -49,8 +48,8 @@ async function getRecipeById(id: string): Promise<IRecipe | undefined> {
 
 async function getTopRecipes() {
   try {
-    const response = await axios.get(
-      `${instance.defaults.baseURL}/recipes/top`
+    const response = await instance.get(
+      `/recipes/top`
     );
     return response.data as IRecipe[];
   } catch (error) {
@@ -62,7 +61,7 @@ async function createRecipe(
   recipe: ICreatedRecipe
 ): Promise<IRecipe | undefined> {
   try {
-    const response = await axios.post(`${instance.defaults.baseURL}/recipes`, {
+    const response = await instance.post(`/recipes`, {
       ...recipe,
     });
 
@@ -80,8 +79,8 @@ async function updateRecipe(
 ): Promise<IRecipe | undefined> {
   try {
     const { _id, ...data } = updatedRecipe;
-    const response = await axios.put(
-      `${instance.defaults.baseURL}/recipes/${_id}`,
+    const response = await instance.put(
+      `/recipes/${_id}`,
       data
     );
 
@@ -97,8 +96,8 @@ async function updateRecipe(
 
 async function searchRecipe(searchTerm: string, filters: FilterOptions) {
   try {
-    const response = await axios.get(
-      `${instance.defaults.baseURL}/recipes/search`,
+    const response = await instance.get(
+      `/recipes/search`,
       {
         params: {
           term: searchTerm,
@@ -116,7 +115,7 @@ async function searchRecipe(searchTerm: string, filters: FilterOptions) {
 }
 async function deleteRecipe(id: string): Promise<void> {
   try {
-    await axios.delete(`${instance.defaults.baseURL}/recipes/${id}`);
+    await instance.delete(`/recipes/${id}`);
   } catch (error) {
     console.error(`Error deleting recipe: ${error}`);
   }
@@ -124,8 +123,8 @@ async function deleteRecipe(id: string): Promise<void> {
 
 async function createRecipeComment(comment: INewComment) {
   try {
-    const newComment = await axios.post(
-      `${instance.defaults.baseURL}/recipes/${comment.id}/comments`,
+    const newComment = await instance.post(
+      `/recipes/${comment.id}/comments`,
       comment
     );
 

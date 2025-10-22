@@ -26,6 +26,7 @@ import {
   getUsers,
   getTopUsers,
   updateUser,
+  getMe,
 } from "../api/user";
 import {
   createRecipe,
@@ -86,6 +87,13 @@ export const useGetTopUsers = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: () => getTopUsers(),
+  });
+};
+
+export const useGetMe = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, id],
+    queryFn: () => getMe(),
   });
 };
 

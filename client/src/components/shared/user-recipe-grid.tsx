@@ -4,6 +4,7 @@ import ProfileRecipeCard from "./profile-recipe-card"
 const UserRecipeGrid = ({ recipes }: {
     recipes: IRecipe[]
 }) => {
+    console.log(recipes)
     return (
         <ul className="grid-container">
             {recipes

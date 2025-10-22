@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { IUser } from "@/lib/types";
-import { getCurrentUserId } from "@/lib/api/user";
+import { getCurrentUserId, getMe } from "@/lib/api/user";
 
 // Initial states
 export const INITIAL_USER = {
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuthUser = async () => {
     setIsLoading(true);
     try {
-      const currentUserId = await getCurrentUserId();
+      const currentUserId = await getMe();
       if (currentUserId) {
         setUser({
           ...currentUserId,

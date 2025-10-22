@@ -1,4 +1,3 @@
-import axios from "axios";
 
 import { instance } from "@/lib/config";
 import {
@@ -13,7 +12,7 @@ import {
 async function getPosts(pageNumber: number = 1) {
   try {
     const pageSize = 10;
-    const posts = await axios.get(`${instance.defaults.baseURL}/posts`, {
+    const posts = await instance.get(`/posts`, {
       params: {
         pageNumber,
         pageSize,
@@ -27,7 +26,7 @@ async function getPosts(pageNumber: number = 1) {
 
 async function getPostById(id: string) {
   try {
-    const post = await axios.get(`${instance.defaults.baseURL}/posts/${id}`);
+    const post = await instance.get(`/posts/${id}`);
     return post.data as IPost;
   } catch (error) {
     console.error(error);
@@ -36,8 +35,8 @@ async function getPostById(id: string) {
 
 async function createPost(post: INewPost): Promise<IPost | null> {
   try {
-    const newPost = await axios.post(
-      `${instance.defaults.baseURL}/posts`,
+    const newPost = await instance.post(
+      `/posts`,
       post
     );
 
@@ -53,8 +52,8 @@ async function createPost(post: INewPost): Promise<IPost | null> {
 
 async function createComment(comment: INewComment) {
   try {
-    const newComment = await axios.post(
-      `${instance.defaults.baseURL}/posts/${comment.id}/comments`,
+    const newComment = await instance.post(
+      `/posts/${comment.id}/comments`,
       comment
     );
 
@@ -69,8 +68,8 @@ async function createComment(comment: INewComment) {
 
 async function updatePost(updateData: IUpdatePost) {
   try {
-    const updatedPost = await axios.put(
-      `${instance.defaults.baseURL}/posts/${updateData._id}`,
+    const updatedPost = await instance.put(
+      `/posts/${updateData._id}`,
       updateData
     );
     if (!updatedPost) {
@@ -84,8 +83,8 @@ async function updatePost(updateData: IUpdatePost) {
 
 async function updateComment(updateData: IUpdateComment) {
   try {
-    const updatedComment = await axios.put(
-      `${instance.defaults.baseURL}/posts/${updateData._id}/comments`,
+    const updatedComment = await instance.put(
+      `/posts/${updateData._id}/comments`,
       updateData
     );
 
@@ -100,7 +99,7 @@ async function updateComment(updateData: IUpdateComment) {
 
 async function deletePost(postId: string) {
   try {
-    await axios.delete(`${instance.defaults.baseURL}/posts/${postId}`);
+    await instance.delete(`/posts/${postId}`);
   } catch (error) {
     console.error(error);
   }
@@ -108,8 +107,8 @@ async function deletePost(postId: string) {
 
 async function getPostComments(postId: string) {
   try {
-    const comments = await axios.get(
-      `${instance.defaults.baseURL}/posts/${postId}/comments`
+    const comments = await instance.get(
+      `/posts/${postId}/comments`
     );
     return comments.data as IComment[];
   } catch (error) {
