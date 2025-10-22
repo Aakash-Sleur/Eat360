@@ -13,8 +13,6 @@ import {
   BookOpen,
   Bookmark,
   Edit,
-  MapPin,
-  Calendar,
 } from "lucide-react";
 
 import FollowButton from "@/components/buttons/follow-button";
@@ -26,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserContext } from "@/context/auth-store";
 import {
   useGetFollowersAndFollowing,

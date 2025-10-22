@@ -6,7 +6,6 @@ import { Modal } from "../ui/modal";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { useSocialNexusModal } from "@/hooks/modal-hooks";
 import { cn } from "@/lib/utils";
 import { useUserContext } from "@/context/auth-store";
