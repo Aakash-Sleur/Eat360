@@ -1,5 +1,3 @@
-'use client'
-
 import { Outlet } from 'react-router-dom'
 import TopBar from '@/components/shared/top-bar'
 import RightSidebar from '@/components/shared/right-sidebar'

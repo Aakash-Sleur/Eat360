@@ -4,16 +4,10 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
   useParams,
 } from "react-router-dom";
-import {
-  User,
-  Users,
-  ChefHat,
-  BookOpen,
-  Bookmark,
-  Edit,
-} from "lucide-react";
+import { User, Users, ChefHat, BookOpen, Bookmark, Edit } from "lucide-react";
 
 import FollowButton from "@/components/buttons/follow-button";
 import Loader from "@/components/loader";
@@ -60,9 +54,7 @@ const StatBlock = ({
       !isClickable && "cursor-default"
     )}
   >
-    <div className="flex items-center gap-2 text-gray-600">
-      {icon}
-    </div>
+    <div className="flex items-center gap-2 text-gray-600">{icon}</div>
     <div className="flex flex-col items-center">
       <p className="text-2xl font-bold text-gray-900">{value}</p>
       <p className="text-sm text-gray-600 font-medium">{label}</p>
@@ -70,20 +62,18 @@ const StatBlock = ({
   </button>
 );
 
-const EmptyState = ({ 
-  icon, 
-  title, 
-  description 
-}: { 
-  icon: React.ReactNode; 
-  title: string; 
+const EmptyState = ({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
   description: string;
 }) => (
   <Card className="w-full mt-8">
     <CardContent className="flex flex-col items-center justify-center py-16 px-4">
-      <div className="rounded-full bg-gray-100 p-6 mb-4">
-        {icon}
-      </div>
+      <div className="rounded-full bg-gray-100 p-6 mb-4">{icon}</div>
       <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-600 text-center max-w-md">{description}</p>
     </CardContent>
@@ -101,6 +91,7 @@ const ProfilePage = () => {
   );
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isOwnProfile = userInView?._id === currentUser?._id;
 
   const getCurrentTab = () => {
@@ -119,6 +110,10 @@ const ProfilePage = () => {
     onOpen(type);
   };
 
+  const handleChat = async () => {
+    navigate("/chat?otherUser=" + userInView?._id);
+  };
+
   if (!userInView || isRecipesLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -130,7 +125,7 @@ const ProfilePage = () => {
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white">
       {/* Cover Image Section */}
-<div className="w-full h-48 bg-gradient-to-r from-emerald-400 via-lime-300 to-orange-200 relative">
+      <div className="w-full h-48 bg-gradient-to-r from-emerald-400 via-lime-300 to-orange-200 relative">
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
 
@@ -192,7 +187,15 @@ const ProfilePage = () => {
                         </Link>
                       </Button>
                     ) : (
-                      <FollowButton userInView={userInView} />
+                      <div className="flex gap-4">
+                        <FollowButton userInView={userInView} />
+                        <Button
+                          className="h-12 bg-blue-500 px-8"
+                          onClick={handleChat}
+                        >
+                          Chat
+                        </Button>
+                      </div>
                     )}
                   </div>
                 </div>

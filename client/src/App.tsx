@@ -21,6 +21,7 @@ const PaymentFailure = lazy(() => import("./pages/payment-failure-page"));
 const PrintPage = lazy(() => import("./pages/print-page"));
 const NotFoundPage = lazy(() => import("./pages/not-found")); 
 const DemoPage = lazy(() => import("./pages/demo-page")); 
+const ChatPage = lazy(() => import("./pages/chat-page"));
 
 // Custom Lazy Load Component
 const LazyLoad = (Component: React.FC): ReactElement => (
@@ -53,6 +54,7 @@ function App() {
             <Route path="/posts" element={LazyLoad(PostsPage)} />
             <Route path="/posts/:postId" element={LazyLoad(PostDetailsPage)} />
             <Route path="/demo" element={LazyLoad(DemoPage)} />
+            <Route path="/chat" element={LazyLoad(ChatPage)} />
           </Route>
 
           {/* Independent Routes */}
