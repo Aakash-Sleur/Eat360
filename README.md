@@ -7,111 +7,119 @@
     **Read, Cook, Eat, and Enjoy!**
 
 
-<em>P.S. This is the first time I've done a project entirely on my own, so please forgive any code quality issues or bugs you may encounter.</em>
+<em>
+P.S. This is the first time I've done a project entirely on my own, so please forgive any code quality issues or bugs you may encounter <br />
+Also, This is a micro services application where the authentication and socket is in other repos of mine
+
+.</em>
 
 
+## 🧩 **Architecture Overview**
 
-## Core Components
-**MongoDB**  
-- Database  
-- NoSQL database used to store application data, including user information, products, and orders.
+### **Microservices**
 
-**Express.js**  
-- Web framework  
-- Backend framework used to build the RESTful API and handle server-side logic.
+* **Auth Service (Go + Gin)**
 
-**React.js**  
-- Frontend library  
-- JavaScript library for building user interfaces, particularly single-page applications (SPAs).
+  * Handles authentication and authorization with **JWT**
+  * Fully **type-safe** and modular
 
-**Node.js**  
-- JavaScript runtime  
-- Server-side runtime environment that allows you to run JavaScript on the backend.
+* **Socket Service (Hono.js + Socket.io)**
 
-**TypeScript**  
-- JavaScript superset  
-- A strongly-typed programming language that builds on JavaScript, providing enhanced tooling and better error checking.
+  * Enables **real-time chat and messaging**
+  * Lightweight and high-performance implementation
 
-**Vite**  
-- Frontend tooling  
-- Next-generation frontend tool that provides a fast and efficient development environment, with native support for TypeScript.
+* **Event-Driven Services (AWS)**
 
+  * **EventBridge** and **Lambda** integrated for **recipe scheduling** and asynchronous task processing
 
-**TanStack Query**  
-- Data fetching library  
-- Powerful data-fetching and state management tool for React, allowing efficient handling of server-side data, caching, and synchronization.
+---
 
+## 🧠 **Core Technologies**
 
-**Zod**
+| Category              | Technology                  | Description                                                             |
+| --------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| **Database**          | **MongoDB**                 | NoSQL database storing user data, recipes, posts, and other entities    |
+| **Backend Framework** | **Express.js**              | RESTful API handling business logic and routes                          |
+| **Frontend Library**  | **React.js (TypeScript)**   | SPA architecture with strong typing and modular structure               |
+| **Runtime**           | **Node.js**                 | JavaScript runtime for backend logic                                    |
+| **Tooling**           | **Vite**                    | Lightning-fast development and build tool with native TS support        |
+| **Data Fetching**     | **TanStack Query**          | Efficient data fetching, caching, and server-state synchronization      |
+| **Validation**        | **Zod**                     | Type-safe schema validation for backend and frontend consistency        |
+| **State Management**  | **Zustand**                 | Minimal and scalable state management solution                          |
+| **Styling**           | **TailwindCSS + ShadCN UI** | Modern, responsive UI with utility-first design and prebuilt components |
+| **Media Handling**    | **Cloudinary**              | Optimized image storage and transformations                             |
+| **Payments**          | **Stripe**                  | Secure and scalable payment gateway for premium features                |
+| **ODM**               | **Mongoose**                | Schema-based modeling for MongoDB                                       |
+| **Compiler**          | **Babel**                   | Transpiles modern JS/TS for cross-browser compatibility                 |
 
- - Validation Library
- - TypeScript-first schema declaration and validation library used to ensure the integrity of data structures throughout the application. It helps in defining and enforcing data types, validating inputs, and providing meaningful error messages.
+---
 
-**Zustand**
- - State Management
- - A lightweight state management library for React, used to manage the application's global and local state with minimal boilerplate. It offers a simple, flexible, and scalable approach to handling state across components.
+## 🚀 **Key Features**
 
-### TailwindCSS
+### 🧑‍🍳 **Recipe Management**
 
- - CSS Framework
- - A utility-first CSS framework used to design responsive and modern user interfaces. It allows developers to rapidly build custom designs without writing custom CSS by providing a comprehensive set of pre-defined classes.
+* Create, edit, delete, and view recipes
+* Like, comment, and share recipes
+* Adjust ingredient quantities dynamically
+* Mark recipes as public/private
+* Access premium recipes via **Stripe integration**
+* **Automated recipe scheduling** via **AWS EventBridge & Lambda**
 
+### 💬 **Real-Time Chat**
 
-**Cloudinary**  
-- Media storage  
-- Cloud-based service used for storing and serving media files, such as images and videos, with support for transformations and optimizations.
+* One-on-one functionality
+* **Socket.io**-powered real-time messaging
 
-**Stripe**  
-- Payment gateway  
-- Payment processing platform used for handling transactions, including payment integrations, subscriptions, and invoicing.
+### 🔍 **Search Functionality**
 
-**Mongoose**  
-- ODM (Object Data Modeling) library  
-- Provides a schema-based solution to model application data and interact with MongoDB.
+* Search by title, description, or ingredients
 
-**Babel**  
-- JavaScript compiler  
-- Used to transpile modern JavaScript and TypeScript code into a version compatible with older browsers and environments.
+### 👤 **User Profiles**
 
+* Manage profile details and avatars
+* View personal and public posts or recipes
 
+### 🖼️ **Image Handling**
 
-## Features
+* Upload and optimize images via **Cloudinary**
 
-- **Responsive Design**
-  - Built with TailwindCSS and ShadowUI components for a seamless experience across devices.
-  
-- **Authentication**
-  - Sign In and Sign Out functionality.
+### 💸 **Payment Integration**
 
-- **Recipe Management**
-  - Create, update, and delete recipes.
-  - View and like recipes.
-  - Adjust recipe quantities based on the number of people.
-  - Comment on recipes.
-  - Share recipes.
-  - Save favorite recipes.
-  - Adjust the visibility of recipes (public/private).
-  - Access to premium recipes.
+* Secure payments for premium content and features
 
-- **Search Functionality**
-  - Search for recipes by title, ingredients, description, and more.
+### ❤️ **Social Interaction**
 
-- **Payment Integration**
-  - Payment gateway powered by Stripe for premium features.
+* Create, update, and delete posts
+* Like and comment on user posts
 
-- **Social Interaction**
-  - Create, update, and delete posts.
-  - View and like posts.
-  - Comment on posts.
+### 📱 **Responsive Design**
 
-- **User Profile**
-  - Profile management options.
-  - Update profile information.
-  
-- **Image Handling**
-  - Image upload and optimization using Cloudinary.
+* Fully responsive across mobile, tablet, and desktop
+* Built with **TailwindCSS** and **ShadCN UI** components
 
+---
 
+## ⚙️ **Highlights**
+
+* 🧱 Modular **microservices architecture** (Auth, Socket, Core API)
+* ☁️ Integrated **AWS EventBridge + Lambda** for background task automation
+* 🔒 **JWT Authentication** and secure API communication
+* 🧩 Type-safe codebase with **TypeScript** and **Zod**
+* ⚡ Lightning-fast build with **Vite**
+* 💬 Real-time interactivity with **Socket.io**
+* 💳 Seamless **Stripe** payments
+
+---
+
+## 🏗️ **Tech Stack Summary**
+
+**Frontend:** React.js, TypeScript, Vite, TailwindCSS, Zustand, TanStack Query
+**Backend:** Node.js, Express.js, MongoDB, Zod, Mongoose
+**Auth Service:** Go (Gin, JWT)
+**Socket Service:** Hono.js, Socket.io
+**Cloud:** AWS EventBridge, Lambda, Cloudinary, Stripe
+
+---
 
  ## Preview
 
@@ -183,6 +191,12 @@ Here’s an improved structure:
 ### Environment Variables
 - The required environment variables for both the client and server are detailed in the README.md files within their respective folders in this repository.
 
+## 🗂️ Related Repositories
+
+| Service | Description | Repository |
+|----------|--------------|------------|
+| 🔐 Auth Service | Go (Gin) + JWT Authentication | [View Repo](https://github.com/Aakash-Sleur/auth-service-eat360) |
+| 💬 Socket Service | Hono.js + Socket.io | [View Repo](https://github.com/Aakash-Sleur/chat-service-eat360) |
 
 ## Future Improvements
 
@@ -194,23 +208,13 @@ Here’s an improved structure:
   - Implement filters based on various criteria such as date, premium status, vegetarian or non-vegetarian, difficulty level, preparation time, and more.
   - Add personalized filtering options based on user preferences and dietary restrictions.
 
-- **JWT Integration**
-  - Enhance security by integrating JWT (JSON Web Token) for more robust authentication and authorization across the application.
-
 - **OAuth Functionality**
   - Provide users with the option to sign in using their social media accounts (Google, Facebook, etc.) via OAuth.
   - Enable seamless account linking and data import from other platforms.
 
-- **Social Sharing Options**
-  - Add social sharing buttons to recipes and posts, allowing users to share content directly to their favorite social media platforms.
-
 - **Subscription Model**
   - Introduce a subscription service for premium content, offering tiered access to exclusive recipes, collections, and features.
   - Include options for monthly, quarterly, and annual subscriptions.
-
-- **Timed Upload Option**
-  - Allow users to schedule posts and recipe uploads for future dates and times.
-  - Include features for draft management and post previews.
 
 - **Posts with Recipe References**
   - Enable users to create posts that directly reference specific recipes.
@@ -220,8 +224,4 @@ Here’s an improved structure:
   - Add a personalized activity feed that shows recent actions by followed users, such as new recipes, posts, and comments.
   - Include notifications for interactions on user content (likes, comments, shares).
 
-- **In-App Messaging**
-  - Implement a messaging system that allows users to communicate directly with each other.
-  - Enable recipe sharing and collaboration through private messages.
- 
 _ _ _ _
