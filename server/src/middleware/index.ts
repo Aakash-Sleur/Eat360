@@ -9,7 +9,7 @@ export const isAuthenticated = async (
   next: express.NextFunction
 ) => {
   try {
-    const sessionToken = req.cookies[process.env.SECRET];
+    const sessionToken = req.cookies[process.env.SECRET!];
 
     if (!sessionToken) {
       return res.sendStatus(403);
@@ -37,7 +37,7 @@ export const isOwner = async (
 ) => {
   try {
     const { id } = req.params;
-    const currentUserId = get(req, "identity._id") as string;
+    const currentUserId = (get(req, "identity._id") || "") as string;
 
     if (!currentUserId) {
       return res.sendStatus(400);

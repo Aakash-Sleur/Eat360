@@ -17,12 +17,7 @@ import setDefaultPasswords from "./seed";
 const app: Express = express();
 
 // middlewares
-app.use(
-  cors({
-    credentials: true,
-  })
-);
-
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(cookieParser());
 app.use(
@@ -39,8 +34,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
@@ -52,8 +45,24 @@ const server = http.createServer(app);
 // mongodb connection
 mongoose
   .connect(MONGO_URI!, mongodbOptions)
-  .then(() => console.log("Connected to MongoDB🤝"))
-  .catch((err) => console.error("Error while connecting to MongoDB", err));
+  .then(() => {
+    console.log("Connected to MongoDB🤝");
+    console.log(`Database: ${mongoose.connection.db.databaseName}`);
+  })
+  .catch((err) => {
+    console.error("Error while connecting to MongoDB:", err.message);
+    console.error("Full error:", err);
+    process.exit(1);
+  });
+
+// Handle connection events
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB disconnected");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
 
 // setDefaultPasswords();
 // routes
